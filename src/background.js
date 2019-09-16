@@ -160,45 +160,47 @@ export default function(settings, updateUI) {
 	};
 
 	const volumeControl = {
-		VOLUME_STEPS: 0.10,
-		VOLUME_REFRESH_MS: 100,
-		GAIN_REF: 70,
-		//"get": function() { return userVolume; },
-		save: function(vol) {
-			settings.config.userVolume = vol;
-			var targetVol = volumeControl.set(true);
-			updateUI();
-			settings.saveSettings();
-			return targetVol;
-		},
-		set: function(applyImmediately) {
-			let indexRadio = getActiveIndex();
-			let scaledVol = settings.config.filterVolume * settings.config.userVolume;
-			let targetVol = scaledVol * Math.pow(10,2*(scaledVol-1));
-			if (!isNaN(indexRadio)) {
-				let status = settings.radios[indexRadio].status;
-				if (status && status[status.length-1]) { // status might be null if no prediction has been sent until now
-					let gain = status[status.length-1].gain;
-					if (!isNaN(gain) && gain > 0) {
-						targetVol *= Math.pow(10, (Math.min(volumeControl.GAIN_REF-gain,0))/20);
-					}
-				} else {
-					console.log("volumeControl: warn: indexRadio=" + indexRadio + " status=" + JSON.stringify(status));
-				}
-			}
+    VOLUME_STEPS: 0.1,
+    VOLUME_REFRESH_MS: 100,
+    GAIN_REF: 70,
 
-			if (!applyImmediately && targetVol > settings.player.volume + volumeControl.VOLUME_STEPS) {
-				settings.player.volume += volumeControl.VOLUME_STEPS;
-				setTimeout(volumeControl.set, volumeControl.VOLUME_REFRESH_MS);
-			} else if (!applyImmediately && targetVol < settings.player.volume - volumeControl.VOLUME_STEPS) {
-				settings.player.volume -= volumeControl.VOLUME_STEPS;
-				setTimeout(volumeControl.set, volumeControl.VOLUME_REFRESH_MS);
-			} else {
-				settings.player.volume = targetVol;
-			}
-			return targetVol;
-		}
-	};
+    save(vol) {
+      settings.config.userVolume = vol;
+      const targetVol = volumeControl.set(true);
+      updateUI();
+      settings.saveSettings();
+      return targetVol;
+    },
+
+    set(applyImmediately) {
+      const indexRadio = getActiveIndex();
+      let targetVol = settings.config.filterVolume * settings.config.userVolume;
+
+      if (!isNaN(indexRadio)) {
+				const status = settings.radios[indexRadio].status;
+				// status might be null if no prediction has been sent until now
+        if (status && status[status.length - 1]) {
+          const gain = status[status.length - 1].gain;
+          if (!isNaN(gain) && gain > 0) {
+            targetVol *= Math.pow(10, Math.min(volumeControl.GAIN_REF - gain, 0) / 20);
+          }
+        } else {
+          console.log("volumeControl: warn: indexRadio=" + indexRadio + " status=" + JSON.stringify(status));
+        }
+      }
+
+      if (!applyImmediately && targetVol > settings.player.volume + volumeControl.VOLUME_STEPS) {
+        settings.player.volume += volumeControl.VOLUME_STEPS;
+        setTimeout(volumeControl.set, volumeControl.VOLUME_REFRESH_MS);
+      } else if (!applyImmediately && targetVol < settings.player.volume - volumeControl.VOLUME_STEPS) {
+        settings.player.volume -= volumeControl.VOLUME_STEPS;
+        setTimeout(volumeControl.set, volumeControl.VOLUME_REFRESH_MS);
+      } else {
+        settings.player.volume = targetVol;
+      }
+      return targetVol;
+    }
+  };
 
 	const doAction = function() {
 
