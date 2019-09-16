@@ -177,8 +177,8 @@ export default function(settings, updateUI) {
       let targetVol = settings.config.filterVolume * settings.config.userVolume;
 
       if (!isNaN(indexRadio)) {
-				const status = settings.radios[indexRadio].status;
-				// status might be null if no prediction has been sent until now
+        const status = settings.radios[indexRadio].status;
+        // status might be null if no prediction has been sent until now
         if (status && status[status.length - 1]) {
           const gain = status[status.length - 1].gain;
           if (!isNaN(gain) && gain > 0) {
