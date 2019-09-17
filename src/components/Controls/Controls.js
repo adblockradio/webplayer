@@ -1,51 +1,52 @@
-import React, { Component } from "react";
-import VolumeSlider from "./VolumeSlider";
-import PlayerStatus from "./PlayerStatus";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+import consts from "../../consts.js";
 
-const DivControls = styled.div`
-	margin: -60px 0 0 0px;
-	z-index: 1000;
-	top: 100%;
-	position: relative;
-	background: #eee;
-	height: 60px;
-	align-items: center;
-	display: flex;
-	border-top: 2px solid #888;
+import Volume from "./Volume";
+import PlayerStatus from "./PlayerStatus";
+import PlayPause from "./PlayPause";
+
+const StyledControls = styled.div`
+  display: flex;
+  position: relative;
+  top: 100%;
+  height: 60px;
+  margin: -60px 0 0 0px;
+  z-index: 1000;
+  background: #eee;
+  align-items: center;
+  border-top: 2px solid #888;
 `;
 
-class Controls extends Component {
-	constructor(props) {
-		super(props);
-		this.togglePlayer = this.togglePlayer.bind(this);
-	}
+function Controls(props) {
+  const { condensed, bsw, settings } = props;
 
-	togglePlayer() {
-		console.log("toggle player");
-		this.props.bsw.togglePlay();
-	}
+  const togglePlayer = () => {
+    bsw.togglePlay();
+  };
 
-	render() {
-		return (
-			<DivControls>
-				<PlayerStatus settings={this.props.settings} bsw={this.props.bsw} condensed={this.props.condensed} playbackAction={this.togglePlayer} />
+  const handleVolumeChange = volume => {
+    bsw.volume.save(volume);
+  };
 
-				{!this.props.condensed &&
-					<VolumeSlider config={this.props.settings.config} bsw={this.props.bsw} condensed={this.props.condensed} />
-				}
-			</DivControls>
-		);
-	}
+  const indexRadio = bsw.getActiveIndex();
+  const reducedVolume = settings.config.filterVolume === consts.VOLUME_MUTED;
+
+  return (
+    <StyledControls>
+      <PlayPause playing={!isNaN(indexRadio)} onToggle={togglePlayer} />
+      <PlayerStatus radio={indexRadio} reducedVolume={reducedVolume} condensed={condensed} settings={settings} />
+      {!condensed && <Volume volume={settings.config.userVolume} onChange={handleVolumeChange} />}
+    </StyledControls>
+  );
 }
 
 Controls.propTypes = {
-	bsw: PropTypes.object.isRequired,
-	settings: PropTypes.object.isRequired,
-	condensed: PropTypes.bool.isRequired,
-	isPlaying: PropTypes.bool.isRequired
+  condensed: PropTypes.bool.isRequired,
+  bsw: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired
 };
 
 export default Controls;

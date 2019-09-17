@@ -320,17 +320,9 @@ class RadiosCarousel extends Component {
 			});
 		}
 
-		var isPlaying = false;
-		for (var i=0; i<this.props.settings.radios.length; i++) {
-			if (this.props.settings.radios[i].playing) {
-				isPlaying = true;
-				break;
-			}
-		}
-
 		return (
 			<div ref={this.radiolistRef} onKeyPress={this.handleNav} onScroll={this.handleScroll} style={styleDivRadios}>
-				<Controls settings={this.props.settings} bsw={this.props.bsw} condensed={this.props.condensed} isPlaying={isPlaying} />
+				<Controls settings={this.props.settings} bsw={this.props.bsw} condensed={this.props.condensed} />
 				{radios.map(function(radio, i) {
 					let ti = translate.indexOf(i);
 					return (
