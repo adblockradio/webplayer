@@ -174,8 +174,9 @@ export default function(settings, updateUI) {
 
 		set(applyImmediately) {
 			const indexRadio = getActiveIndex();
-			let targetVol = settings.config.filterVolume * settings.config.userVolume;
-
+			const scaledVol = settings.config.filterVolume * settings.config.userVolume;
+			let targetVol = scaledVol * Math.pow(10, (1 - scaledVol) * -0.8);
+			
 			if (!isNaN(indexRadio)) {
 				const status = settings.radios[indexRadio].status;
 				// status might be null if no prediction has been sent until now
