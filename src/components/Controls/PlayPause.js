@@ -12,34 +12,34 @@ const StyledPlayPause = styled.img`
 `;
 
 function PlayPause(props) {
-  const { className, playing, onToggle } = props;
+	const { className, playing, onToggle } = props;
 
-  const handleToggle = () => {
-    onToggle();
-  };
+	const handleToggle = () => {
+		onToggle();
+	};
 
-  return (
-    <StyledPlayPause
-      src={playing ? stop : play}
-      alt={playing ? "Start" : "Stop"}
-      onClick={handleToggle}
-      className={className}
-    />
-  );
+	return (
+		<StyledPlayPause
+			src={playing ? stop : play}
+			alt={playing ? "Start" : "Stop"}
+			onClick={handleToggle}
+			className={className}
+		/>
+	);
 }
 
 PlayPause.defaults = {
-  className: null,
-  playing: false
+	className: null,
+	playing: false
 };
 
 PlayPause.propTypes = {
-  className: PropTypes.string,
-  playing: PropTypes.bool,
-  onToggle: PropTypes.func.isRequired
+	className: PropTypes.string,
+	playing: PropTypes.bool,
+	onToggle: PropTypes.func.isRequired
 };
 
 export default React.memo(PlayPause, (prev, next) => {
-  // only `playing` can rerender this component. We know that other props will never change.
-  return prev.playing === next.playing;
+	// only `playing` can rerender this component. We know that other props will never change.
+	return prev.playing === next.playing;
 });

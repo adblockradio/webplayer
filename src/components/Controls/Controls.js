@@ -21,32 +21,32 @@ const StyledControls = styled.div`
 `;
 
 function Controls(props) {
-  const { condensed, bsw, settings } = props;
+	const { condensed, bsw, settings } = props;
 
-  const togglePlayer = () => {
-    bsw.togglePlay();
-  };
+	const togglePlayer = () => {
+		bsw.togglePlay();
+	};
 
-  const handleVolumeChange = volume => {
-    bsw.volume.save(volume);
-  };
+	const handleVolumeChange = volume => {
+		bsw.volume.save(volume);
+	};
 
-  const indexRadio = bsw.getActiveIndex();
-  const reducedVolume = settings.config.filterVolume === consts.VOLUME_MUTED;
+	const indexRadio = bsw.getActiveIndex();
+	const reducedVolume = settings.config.filterVolume === consts.VOLUME_MUTED;
 
-  return (
-    <StyledControls>
-      <PlayPause playing={!isNaN(indexRadio)} onToggle={togglePlayer} />
-      <PlayerStatus radio={indexRadio} reducedVolume={reducedVolume} condensed={condensed} settings={settings} />
-      {!condensed && <Volume volume={settings.config.userVolume} onChange={handleVolumeChange} />}
-    </StyledControls>
-  );
+	return (
+		<StyledControls>
+			<PlayPause playing={!isNaN(indexRadio)} onToggle={togglePlayer} />
+			<PlayerStatus radio={indexRadio} reducedVolume={reducedVolume} condensed={condensed} settings={settings} />
+			{!condensed && <Volume volume={settings.config.userVolume} onChange={handleVolumeChange} />}
+		</StyledControls>
+	);
 }
 
 Controls.propTypes = {
-  condensed: PropTypes.bool.isRequired,
-  bsw: PropTypes.object.isRequired,
-  settings: PropTypes.object.isRequired
+	condensed: PropTypes.bool.isRequired,
+	bsw: PropTypes.object.isRequired,
+	settings: PropTypes.object.isRequired
 };
 
 export default Controls;

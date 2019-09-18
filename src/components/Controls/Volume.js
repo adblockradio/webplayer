@@ -23,40 +23,40 @@ const StyledIcon = styled.img`
 `;
 
 const sliderStyle = {
-  height: "15px",
-  margin: "10px"
+	height: "15px",
+	margin: "10px"
 };
 
 function VolumeControl(props) {
-  const { onChange, volume } = props;
+	const { onChange, volume } = props;
 
-  const handleSliderChange = value => {
-    onChange(value / 100);
-  };
+	const handleSliderChange = value => {
+		onChange(value / 100);
+	};
 
-  const handleMute = () => {
-    onChange(0);
-  };
+	const handleMute = () => {
+		onChange(0);
+	};
 
-  const handleFull = () => {
-    onChange(1);
-  };
+	const handleFull = () => {
+		onChange(1);
+	};
 
-  return (
-    <StyledVolume>
-      <StyledIcon src={muteIcon} onClick={handleMute} />
-      <Slider min={0} max={100} value={volume * 100} onChange={handleSliderChange} style={sliderStyle} />
-      <StyledIcon src={speakerIcon} onClick={handleFull} />
-    </StyledVolume>
-  );
+	return (
+		<StyledVolume>
+			<StyledIcon src={muteIcon} onClick={handleMute} />
+			<Slider min={0} max={100} value={volume * 100} onChange={handleSliderChange} style={sliderStyle} />
+			<StyledIcon src={speakerIcon} onClick={handleFull} />
+		</StyledVolume>
+	);
 }
 
 VolumeControl.propTypes = {
-  volume: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
+	volume: PropTypes.number.isRequired,
+	onChange: PropTypes.func.isRequired
 };
 
 export default React.memo(VolumeControl, (prev, next) => {
-  // only `volume` can rerender this component. We know that other props will never change.
-  return prev.volume === next.volume;
+	// only `volume` can rerender this component. We know that other props will never change.
+	return prev.volume === next.volume;
 });
