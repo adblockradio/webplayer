@@ -64,7 +64,7 @@ const HeaderLogo = styled.img`
 	}
 `;
 
-const OnboardingTable = FilterTable.extend`
+const OnboardingTable = styled(FilterTable)`
 	margin: 1em auto 1em auto;
 	&.buttonGroup {
 		margin: 2em auto 2em auto;

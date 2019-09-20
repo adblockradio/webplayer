@@ -19,7 +19,7 @@
     "react-share": "^1.19.1",
     "socket.io-client": "^2.2.0",
     "source-map-explorer": "^1.8.0",
-    "styled-components": "^2.4.1"
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "@types/hls.js": "^0.7.7",
