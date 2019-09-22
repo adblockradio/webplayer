@@ -33,6 +33,12 @@ const StyledButtons = styled(Button)`
 	margin-bottom: 15px;
 `;
 
+const Hint = styled.div`
+	color: white;
+	font-size: 16px;
+	margin: 5px;
+`;
+
 function Menu(props) {
 	const { condensed, uiLang, filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
 
@@ -60,6 +66,13 @@ function Menu(props) {
 	const bugBtnLabel = { fr: "Bug de filtrage\xa0?", en: "Filtering error?" }[uiLang];
 	const suggestBtnLabel = { fr: "Vos suggestions", en: "Give feedback" }[uiLang];
 	const donateBtnLabel = { fr: "Faites un don", en: "Donate" }[uiLang];
+
+	const hintLabel = {
+		fr:
+			"Astuce: sur Chrome mobile, ce site est une application installable. Allez dans le menu et cliquez sur \"Ajouter à l'écran d'accueil\".",
+		en:
+			"Tip: on Chrome mobile, this website is an installable application. Open the menu and click on \"Add to home screen\"."
+	}[uiLang];
 
 	// TODO: Migrate Sidebar isOpened argument to React.Context?
 	return (
@@ -162,6 +175,8 @@ function Menu(props) {
 							href={`https://${uiLang}.liberapay.com/asto/donate`}
 						/>
 					</GroupedButtons>
+
+					{condensed && isOpened && <Hint>{hintLabel}</Hint>}
 				</>
 			)}
 		</Sidebar>
