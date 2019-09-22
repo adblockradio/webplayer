@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import Settings from "../Settings.js";
-import Onboarding from "./Onboarding/Onboarding.jsx";
-import RadiosCarousel from "../components/RadiosCarousel.js";
 import styled from "styled-components";
-import consts from "../consts.js";
 import classNames from "classnames";
-import MediaElement from "./MediaElement.js";
 
+import RadiosCarousel from "./RadiosCarousel.js";
 import { Feedback } from "./Feedback.jsx";
+import MediaElement from "./MediaElement.js";
+import Onboarding from "./Onboarding/Onboarding.jsx";
 import Flag from "./Flag.jsx";
-
 import Menu from "./Menu";
+
+import Settings from "../Settings.js";
+import consts from "../consts.js";
 
 const Root = styled.div`
 	overflow: auto;
@@ -19,14 +19,7 @@ const Root = styled.div`
 `;
 
 const RightUI = styled.div`
-	/*width: calc(100% - 20vw);*/
-	/*float: right;*/
-	/*height: 100vh;*/
 	flex-grow: 1;
-
-	/*&.condensed {
-		width: calc(100% - 80px);
-	}*/
 `;
 
 const Loading = styled.div`
