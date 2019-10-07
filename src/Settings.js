@@ -23,11 +23,10 @@ class Account {
 }
 
 class Radio {
-	constructor(data) { //logo, name, urls, homepage, country) {
+	constructor(data) {
 		this.logo = data.logo;
 		this.name = data.name;
 		this.url = data.url;
-		this.homepage = data.homepage;
 		this.country = data.country;
 		this.codec = data.codec;
 		this.hls = data.hls;
@@ -98,7 +97,6 @@ Settings.prototype.saveSettings = function() {
 			name: this.radios[i].name,
 			logo: this.radios[i].logo,
 			url: this.radios[i].url,
-			homepage: this.radios[i].homepage,
 			country: this.radios[i].country,
 			codec: this.radios[i].codec,
 			hls: this.radios[i].hls
@@ -126,7 +124,7 @@ Settings.prototype.loadSettings = function() {
 	if (res && res.radios) {
 		for (let i=0; i<res.radios.length; i++) { // successive addRadios are necessary, so that methods on radios are implemented.
 			let r = res.radios[i];
-			this.addRadio(r); //{ favicon: r.logo, name: r.name, url: r.urls[0], homepage: r.homepage, country: r.country });
+			this.addRadio(r);
 		}
 	}
 	if (res && res.config) this.config = res.config;
@@ -149,7 +147,7 @@ Settings.prototype.setCatalog = function(list) {
 		if (isNaN(indexRadio)) {
 			//console.log("remove " + self.state.settings.radios[i].name + " as it is not supported anymore");
 			//self.state.settings.removeRadio(self.state.settings.radios[i].name);
-			this.catalog.push({ country: split[0], name: split[1], updatePending: false });
+			this.catalog.push({ country: split[0], name: split[1] });
 		}
 	}
 
@@ -164,31 +162,12 @@ Settings.prototype.setCatalog = function(list) {
 	this.saveSettings();
 };
 
-Settings.prototype.setPendingCatalogUpdate = function(country, name, value) {
-	for (let i=0; i<this.catalog.length; i++) {
-		if (country === this.catalog[i].country && name === this.catalog[i].name) {
-			this.catalog[i].updatePending = value;
-			return;
-		}
-	}
-};
-
-Settings.prototype.checkPendingCatalogUpdate = function(country, name) {
-	for (let i=0; i<this.catalog.length; i++) {
-		if (country === this.catalog[i].country && name === this.catalog[i].name) {
-			return this.catalog[i].updatePending;
-		}
-	}
-};
-
 Settings.prototype.updateCatalogEntry = function(result) {
 	for (let i=0; i<this.catalog.length; i++) {
 		if (result.country === this.catalog[i].country && result.name === this.catalog[i].name) {
 			Object.assign(this.catalog[i], {
 				url: result.url,
-				homepage: result.homepage,
 				logo: result.favicon,
-				votes: result.votes,
 				codec: result.codec,
 				hls: result.hls
 			});
@@ -199,24 +178,16 @@ Settings.prototype.updateCatalogEntry = function(result) {
 	this.saveSettings();
 };
 
-Settings.prototype.addRadio = function(data) { // name, logo, url, homepage, country, codec, hls
+Settings.prototype.addRadio = function(data) { // name, logo, url, country, codec, hls
 	if (!data) return;
-	if (this.mpll > 0 && this.radios.length >= this.mpll) {
-		console.log("addRadio: maximum amount of radios reached " + this.account.maxPlaylistLen);
-		return null;
-	}
 
 	// check that all props are here and rudimentary sanitization of the contents
 	if (!data.url || data.url.indexOf("<") >= 0) return console.log("addRadio: invalid radio url. skip");
-	if (!data.logo || data.logo.indexOf("<") >= 0) return console.log("addRadio: invalid radio logo. skip");
+	if (!data.logo || data.logo.indexOf("<") >= 0) return console.log("addRadio: invalid radio logo: " + data.logo + ".skip");
 	if (!data.name || data.name.indexOf("<") >= 0) return console.log("addRadio: invalid radio name. skip");
 	if (!data.country || data.country.indexOf("<") >= 0) return console.log("addRadio: invalid radio country. skip");
-	if (!data.homepage || data.homepage.indexOf("<") >= 0) {
-		console.log("addRadio: invalid radio homepage");
-		data.homepage = "";
-	}
 	if (!data.codec || data.codec.indexOf("<") >= 0) return console.log("addRadio: invalid radio codec. skip");
-	if (!data.hls || data.hls.indexOf("<") >= 0) return console.log("addRadio: invalid radio hls. skip");
+	if (!isFinite(data.hls)) return console.log("addRadio: invalid radio hls. skip");
 
 	// preventing errors such as
 	// Blocked loading mixed active content “http://985-lh.akamaihd.net/i/studioaudio_1@393647/master.m3u8”
@@ -228,7 +199,12 @@ Settings.prototype.addRadio = function(data) { // name, logo, url, homepage, cou
 	var indexRadio = this.findRadioByName(data.country + "_" + data.name);
 	var radioWasNotInPlaylist;
 	if (indexRadio < 0) { // not found
-		this.radios.push(new Radio(data)); //.logo, data.name, [data.url], data.homepage, data.country));
+		if (this.mpll > 0 && this.radios.length >= this.mpll) {
+			console.log("addRadio: maximum amount of radios reached " + this.account.maxPlaylistLen);
+			return false;
+		}
+
+		this.radios.push(new Radio(data));
 		if (this.config.maxPlaylistLen >= 0 && this.radios.length > this.config.maxPlaylistLen) {
 			this.radios.splice(0, this.radios.length - this.config.maxPlaylistLen);
 		}
@@ -236,14 +212,9 @@ Settings.prototype.addRadio = function(data) { // name, logo, url, homepage, cou
 		console.log("addRadio: " + data.name + " has been inserted in playlist");
 		radioWasNotInPlaylist = true;
 	} else {
-		/*this.radios[indexRadio].logo = data.logo;
-		if (this.radios[indexRadio].urls.indexOf(data.url) < 0) this.radios[indexRadio].urls.push(data.url);
-		this.radios[indexRadio].homepage = data.homepage;
-		this.radios[indexRadio].country = data.country;*/
 		Object.assign(this.radios[indexRadio], {
 			logo: data.logo,
 			url: data.url,
-			homepage: data.homepage,
 			country: data.country,
 			codec: data.codec,
 			hls: data.hls
@@ -255,7 +226,7 @@ Settings.prototype.addRadio = function(data) { // name, logo, url, homepage, cou
 	this.updateUI();
 
 	let self = this;
-	consts.getStreamUrlMime(this.radios[indexRadio].url, function(newUrl) {//, newType) {
+	consts.getStreamUrlMime(this.radios[indexRadio].url.replace("http://", "https://"), function(newUrl) {
 		if (self.radios[indexRadio].url !== newUrl) {
 			console.log("stream url has been updated to " + newUrl);
 			self.radios[indexRadio].url = newUrl;

@@ -125,9 +125,10 @@ class RadiosCarousel extends Component {
 
 		let radios = this.props.settings.radios;
 		for (let i=0; i<radios.length; i++) {
-			if (!radios[i].logo || !radios[i].url) {
-				this.props.bsw.getRadio(radios[i].country, radios[i].name, this.props.settings.addRadio);
-			}
+			this.props.bsw.getRadio(radios[i].country, radios[i].name, result => {
+				result.logo = result.favicon;
+				this.props.settings.addRadio(result);
+			});
 		}
 	}
 

@@ -193,21 +193,13 @@ class ListRadios extends Component {
 	}
 
 	handleResultClick(radio) {
-		let results = this.pickRadios(); //this.state.results.length > 0 ? this.state.results : this.props.catalog;
-		for (let i=0; i<results.length; i++) {
-			//console.log(radio.name + "_" + radio.country);
-			if (results[i].name === radio.name && results[i].country === radio.country) {
-				console.log("click radio index:" + i);
-				if (this.props.settings.findRadioByName(results[i].name) >= 0) {
-					this.props.bsw.removeRadio(radio.name);
-				} else {
-					this.props.bsw.addRadio(radio);
-				}
-				break;
-			}
+		const result = this.pickRadios().find(_radio => _radio.country === radio.country && _radio.name === radio.name);
+		if (result && this.props.settings.findRadioByName(result.name) >= 0) {
+			this.props.bsw.removeRadio(radio.name);
+		} else {
+			this.props.bsw.addRadio(radio);
 		}
 		this.forceUpdate();
-		console.log("result click " + radio.name);
 	}
 
 	handleFlagClick(country) {
@@ -227,9 +219,7 @@ class ListRadios extends Component {
 			if (this.props.catalog[k].country === country && this.props.catalog[k].name === name) {
 				Object.assign(this.props.catalog[k], {
 					url: result.url,
-					homepage: result.homepage,
 					logo: result.favicon,
-					votes: result.votes,
 					codec: result.codec,
 					hls: result.hls
 				});
@@ -240,34 +230,17 @@ class ListRadios extends Component {
 	}
 
 	pickRadios() {
-		//console.log("pickRadios: props.catalog.length=" + this.props.catalog.length);
-		let partialCatalog = [];
-		var self = this;
-		var metadataUpdateCallback = function(result) {
-			if (result) {
-				//console.log("pickRadios: force update");
-				self.forceUpdate();
-			}
-		};
+		const partialCatalog = this.props.catalog.filter(radio =>
+			!(this.state.searchText && consts.normStr(radio.name).indexOf(consts.normStr(this.state.searchText)) < 0) &&
+			!(this.state.searchCountry && radio.country !== this.state.searchCountry));
 
-		for (let i=0; i<this.props.catalog.length; i++) {
-			//console.log(require("util").inspect(this.props.settings.catalog[i], { depth: null }));
-			//console.log("norm catalog: " + consts.normStr(this.props.catalog[i].name) + " vs " + consts.normStr(valueRef));
-			if (this.state.searchText && consts.normStr(this.props.catalog[i].name).indexOf(consts.normStr(this.state.searchText)) < 0) {
-				//console.log("pickRadios:" + this.props.catalog[i].name + " does not contain text " + this.state.searchText);
-				continue;
-			} else if (this.state.searchCountry && this.props.catalog[i].country !== this.state.searchCountry) {
-				//console.log("pickRadios:" + this.props.catalog[i].country + "_" + this.props.catalog[i].name + " has not country " + this.state.searchCountry);
-				continue;
-			} else {
-				partialCatalog.push(this.props.catalog[i]);
-				// if metadata is missing, fetch it
-				if (!this.props.catalog[i].logo || !this.props.catalog[i].url) {
-					this.props.bsw.getRadio(this.props.catalog[i].country, this.props.catalog[i].name, metadataUpdateCallback);
-				}
+		partialCatalog.forEach(radio => {
+			// if metadata is missing, fetch it
+			if (!radio.logo || !radio.url) {
+				this.props.bsw.getRadio(radio.country, radio.name, (result) => result && this.forceUpdate());
 			}
-		}
-		//this.setState({ "results": partialCatalog });
+		});
+
 		return partialCatalog;
 	}
 
@@ -343,9 +316,7 @@ class ListRadios extends Component {
 		);
 	}
 }
-/*{this.props.settings.mpll > 0 &&
-	<p>Vous en avez sélectionné {selected}. {selected > this.props.settings.mpll ? "Il faut en enlever&nbsp;!" : ""}</p>
-}*/
+
 ListRadios.propTypes = {
 	settings: PropTypes.object.isRequired,
 	bsw: PropTypes.object.isRequired,

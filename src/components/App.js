@@ -86,23 +86,25 @@ class App extends Component {
 		this.bsw = require("../background.js").default(this.state.settings, this.updateUI);
 		let self = this;
 		this.bsw.getServerList(function() {
-			self.bsw.getSupportedRadios(function() {
-				//self.state.settings.mpll = mpll;
-				self.setState({ "settings": self.state.settings }); //"catalog": catalog,
+			self.bsw.getRadioList(function() {
+				self.bsw.getSupportedRadios(function() {
+					//self.state.settings.mpll = mpll;
+					self.setState({ "settings": self.state.settings }); //"catalog": catalog,
 
-				// clean radios from playlist that would not be supported anymore
-				//for (let i=self.state.settings.radios.length-1; i>=0; i--) {
+					// clean radios from playlist that would not be supported anymore
+					//for (let i=self.state.settings.radios.length-1; i>=0; i--) {
 
-				// TODO put where radio metadata is refreshed
-				/* else {
-					// update radio logo url
-					if (self.state.settings.radios[i].logo !== catalog[indexRadio].favicon) {
-						console.log("favicon update");
-					}
-					self.state.settings.radios[i].logo = catalog[indexRadio].favicon;
-				}*/
-				//}
-				self.setState({ loading: false });
+					// TODO put where radio metadata is refreshed
+					/* else {
+						// update radio logo url
+						if (self.state.settings.radios[i].logo !== catalog[indexRadio].favicon) {
+							console.log("favicon update");
+						}
+						self.state.settings.radios[i].logo = catalog[indexRadio].favicon;
+					}*/
+					//}
+					self.setState({ loading: false });
+				});
 			});
 		});
 

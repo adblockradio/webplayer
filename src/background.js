@@ -176,7 +176,7 @@ export default function(settings, updateUI) {
 			const indexRadio = getActiveIndex();
 			const scaledVol = settings.config.filterVolume * settings.config.userVolume;
 			let targetVol = scaledVol * Math.pow(10, (1 - scaledVol) * -0.8);
-			
+
 			if (!isNaN(indexRadio)) {
 				const status = settings.radios[indexRadio].status;
 				// status might be null if no prediction has been sent until now
@@ -457,38 +457,49 @@ export default function(settings, updateUI) {
 		});
 	};
 
-	var getRadio = function(country, name, callback) {
-		if (settings.checkPendingCatalogUpdate(country, name)) { // do not do another request if another one has already been made
-			//console.log("getRadio: update is pending, abort.");
-			if (callback) return callback(null);
-			return;
+	let radioListCache = null;
+	var getRadioList = function(callback) {
+		if (radioListCache !== null) {
+			return callback(radioListCache);
 		}
-		settings.setPendingCatalogUpdate(country, name, true);
+
 		//console.log("fetch metadata for radio " + country + "_" + name);
-		consts.post(
-			"https://www.radio-browser.info/webservice/json/stations/search",
-			"country=" + country + "&countryExact=True&name=" + name + "&nameExact=True",
-			function(results) {
-				//console.log("received " + results.length + " radios as a result");
-				for (let i=0; i<results.length; i++) {
-					if (results[i].country !== country || results[i].name !== name) {
-						continue;
-					}
-					results[i].alreadyInPlaylist = settings.findRadioByName(results[i].country + "_" + results[i].name) >= 0;
-					settings.updateCatalogEntry(results[i]);
-					//settings.setPendingCatalogUpdate(country, name, false);
-					if (callback) return callback(results[i]);
-				}
-				if (callback) return callback(null);
+		consts.load("https://www.adblockradio.com/models/list.json", function(err, rawData) {
+			if (err) return callback(null);
+
+			let parsedData = {};
+			try {
+				parsedData = JSON.parse(rawData);
+			} catch (e) {
+				// request or parsing error, or radio not found: use alternate source
+				return callback(null);
 			}
-		);
+			radioListCache = parsedData;
+			return callback(parsedData);
+		});
+	};
+
+	var getRadio = function(country, name, callback) {
+		if (!country || !name || !radioListCache) {
+			return callback(null);
+		}
+
+		const result = radioListCache.find(radio => radio.country === country && radio.name === name);
+		if (!result) {
+			// radio not found
+			return callback(null);
+		}
+
+		result.alreadyInPlaylist = settings.findRadioByName(result.country + "_" + result.name) >= 0;
+		settings.updateCatalogEntry(result);
+		if (callback) return callback(result);
 	};
 
 	var getServerList = function(callback) {
 		const DEV = consts.getParameterByName("dev"); // ? true : false;
 
 		if (!DEV) {
-			consts.load(consts.APIHOSTS_LIST, function(data) {
+			consts.load(consts.APIHOSTS_LIST, function(err, data) {
 				try {
 					hosts = JSON.parse(data);
 				} catch (e) {
@@ -513,12 +524,6 @@ export default function(settings, updateUI) {
 			callback();
 		}
 	};
-
-	/*var onUrlFound = function(newUrl, callback) {
-		consts.getHeaders(newUrl, function(newMimeType) {
-			return callback(newUrl, newMimeType);
-		});
-	};*/
 
 	togglePlay = function(radio) {
 		console.log("toggleplay: radio " + radio);
@@ -644,6 +649,7 @@ export default function(settings, updateUI) {
 	return {
 		moveRadio,
 		getRadio,
+		getRadioList,
 		getSupportedRadios,
 		getServerList,
 		togglePlay,

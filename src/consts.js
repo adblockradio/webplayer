@@ -1,8 +1,4 @@
-//import { ajax } from "../node_modules/jquery/src/jquery.js";
-
-let consts = { //function() {
-	//return {
-
+const consts = {
 	FILTER_MUSIC: 4001,
 	FILTER_SPEECH: 4002,
 	FILTER_OFF: 4003,
@@ -60,26 +56,29 @@ let consts = { //function() {
 				let headers = xhttp.getResponseHeader("content-type") || xhttp.getResponseHeader("Content-Type");
 				console.log("getHeaders: url " + path + " has content-type " + headers);
 				xhttp.abort();
-				return callback(headers);
+				return callback(null, headers);
 			}
 		};
 		xhttp.onerror = function (e) {
 			console.log("getHeaders: request failed: " + e);
+			return callback(e, null);
 		};
 		xhttp.open("GET", path, true);
 		xhttp.send();
 
 	},
 
-	load: function(path, callback) {
+	load: function(path, callback) { // callback(error, response);
+		// TODO: replace this with fetch API some day or use axios
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (xhttp.readyState === 4 && xhttp.status === 200) {
-				callback(xhttp.responseText); //, xhttp.getResponseHeader("Content-Type"));
+				callback(null, xhttp.responseText); //, xhttp.getResponseHeader("Content-Type"));
 			}
 		};
 		xhttp.onerror = function (e) {
 			console.log("getHeaders: request failed: " + e);
+			callback(e, null);
 		};
 		xhttp.open("GET", path, true);
 		xhttp.send();
@@ -114,7 +113,10 @@ let consts = { //function() {
 	getStreamUrlMime: function(url, callback) {
 		var self = this;
 		var onUrlFound = callback;
-		this.getHeaders(url, function(mimeType) {
+		this.getHeaders(url, function(err, mimeType) {
+			if (err) { // probably CORS prevent headers preflight, return URL as-is
+				return onUrlFound(url, callback);
+			}
 			if (["audio/x-mpegurl", "audio/x-scpls; charset=UTF-8", "video/x-ms-asf"].indexOf(mimeType) >= 0) { // M3U, PLS or ASF playlist
 				console.log("detected playlist url: mimeType=" + mimeType);
 				self.load(url, function(playlistContents) {
@@ -162,7 +164,6 @@ let consts = { //function() {
 	normStr: function(str) {
 		return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // https://stackoverflow.com/a/37511463/5317732
 	}
-	//}
 };
 
 export default consts;
