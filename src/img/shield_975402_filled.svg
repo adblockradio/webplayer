@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg6"
+   version="1.1"
+   y="0px"
+   x="0px"
+   viewBox="0 0 100 100"
+   data-name="Layer 1"
+   fill="#000000">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Artboard 41</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <title
+     id="title2">Artboard 41</title>
+  <path
+     id="path4"
+     d="M86.7,16.27H84.62c-13.13,0-22.68-3.59-31-11.65L52.21,3.21a3.17,3.17,0,0,0-4.42,0L46.34,4.62c-8.28,8.05-17.83,11.65-31,11.65H13.3a3.17,3.17,0,0,0-3.17,3.17v2.08c0,2.23,0,4.55-.09,6.94C9.6,51.8,9,83.77,48.28,97.39h0a5.25,5.25,0,0,0,3.44,0h0C91,83.77,90.4,51.8,90,28.45c0-2.39-.09-4.71-.09-6.94V19.44A3.17,3.17,0,0,0,86.7,16.27ZM78.52,52.48H50V86.85C30.46,79.5,23.71,66.6,21.48,52.48H50V15.41h0c8.27,6.75,17.81,10.37,29.42,11.18q0,1,0,2.06C79.61,36.48,79.76,44.66,78.52,52.48Z" />
+  <path
+     id="path4489"
+     d="M 46.536965,85.134328 C 37.49382,80.983905 31.431315,75.765983 27.082169,68.389831 25.259986,65.299409 22.537118,57.829102 21.993178,54.427966 l -0.288007,-1.800847 h 14.020296 14.020296 v 16.949152 c 0,9.322034 -0.04767,16.945636 -0.105932,16.941338 -0.05826,-0.0043 -1.454553,-0.626775 -3.102866,-1.383281 z"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#191919;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  <path
+     id="path4491"
+     d="m 50.169492,34.194915 c 0,-9.904661 0.0862,-18.008474 0.191563,-18.008474 0.10536,0 1.392436,0.835223 2.860169,1.856052 6.532351,4.54334 14.624259,7.449264 23.810364,8.550654 l 2.49769,0.299466 -0.289208,10.854541 c -0.159064,5.969998 -0.397333,11.664922 -0.529485,12.655388 L 78.470309,52.20339 H 64.3199 50.169492 Z"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#191919;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+</svg>
