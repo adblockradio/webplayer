@@ -142,7 +142,7 @@ function Menu(props) {
 						/>
 					</StyledGroupedButtons>
 
-					<GroupedButtons spaced={true}>
+					<GroupedButtons spaced={true} condensed={condensed}>
 						<StyledButtons
 							icon={wand}
 							label={settingsBtnLabel}

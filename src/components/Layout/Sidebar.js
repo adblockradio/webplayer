@@ -4,8 +4,6 @@ import styled from "styled-components";
 
 import Button from "../Controls/Button";
 
-import abrlogo from "../../img/abr_transparent.png";
-
 const StyledSidebar = styled.div`
 	height: 100vh;
 	width: 350px;
@@ -31,7 +29,7 @@ const StyledSidebar = styled.div`
 // eslint-disable-next-line react/prop-types
 const Logo = ({ className }) => (
 	<a href="https://www.adblockradio.com/" className={className}>
-		<img src={abrlogo} alt="Adblock Radio" />
+		<img src="https://static.adblockradio.com/assets/abr_transparent.png" alt="Adblock Radio" />
 	</a>
 );
 

@@ -6,6 +6,7 @@ import styled from "styled-components";
 const StyledGroupedButton = styled.div`
 	display: flex;
 	flex-direction: column;
+	${props => !props.condensed && "width: 240px;"}
 	/* align-items: center; */
 
 	& > button,
