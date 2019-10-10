@@ -8,12 +8,12 @@ const StyledButton = styled.button`
 	width: 200px;
 	margin: 4px;
 	padding: 7px 0 7px 20px;
-	
+
 	color: #333;
 	font-size: 18px;
 	text-align: left;
 	vertical-align: middle;
-	
+
 	background-color: #fff;
 	border-radius: 15px;
 	box-shadow: 0 15px 10px -10px #ffffff66;
@@ -25,7 +25,7 @@ const StyledButton = styled.button`
 		background: #fe5c8e;
 		box-shadow: 0 15px 10px -10px #fe5c8e88;
 	`}
-	
+
 	${props =>
 		props.disabled &&
 		`
@@ -43,12 +43,12 @@ const StyledButton = styled.button`
 		props.iconOnly &&
 		`
 		width: auto;
-		padding: 7px;
+		padding: 7px 10px;
 		text-align: center;
-		border-radius: 10px;
+		border-radius: 15px;
 	`}
 
-	
+
 	${props =>
 		props.href &&
 		`

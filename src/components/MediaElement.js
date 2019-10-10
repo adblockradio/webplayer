@@ -85,7 +85,7 @@ export default class MediaElement extends Component {
 					this.state.player.pause();
 				}*/
 				player.currentTime = 0;
-				player.src = nextProps.url; // || "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAVFYAAFRWAAABAAgAZGF0YQAAAAA=";
+				player.src = nextProps.url;
 				let self = this;
 				this.setState({ player: player, errorMode: false }, function() {
 					if (self.state.player.src && self.state.player.src.slice(-1) !== "/") {

@@ -96,6 +96,9 @@ export class Feedback extends Component {
 							<FeedbackSend onClick={this.sendReview}>{{fr:"Envoyer", en:"Send"}[lang]}</FeedbackSend>
 						</div>
 					}
+					<div style={{marginTop: "1em"}}>
+						<a href="https://github.com/adblockradio/webplayor" target="_blank" rel="noopener noreferrer">{{fr:"Ce lecteur est open-source. Contribuez sur Github", en: "This player is free software. Contribute on Github"}[lang]}</a>
+					</div>
 				</div>
 			);
 

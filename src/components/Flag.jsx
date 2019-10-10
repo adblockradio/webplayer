@@ -87,9 +87,9 @@ class Flag extends Component {
 					<p>{{fr:"Pour garantir la qualité du filtre à publicités, Adblock Radio a besoin de votre aide pour:", en:"To guarantee the quality of the ad filters, Adblock Radio needs your help to support:"}[lang]}</p>
 					<p>{list}</p>
 					<p>
-						<a href="https://github.com/adblockradio/available-models/#become-a-maintainer-to-help-support-radios" target="_blank" rel="noopener noreferrer" onClick={this.props.close}>
+						<a href="https://www.adblockradio.com/blog/2019/09/26/about-becoming-a-maintainer/" target="_blank" rel="noopener noreferrer" onClick={this.props.close}>
 							<OnboardingButton className={classNames({ active: true })}>
-								{{fr:"Je suis volontaire", en: "I want to help"}[lang]}
+								{{fr:"Je veux en savoir plus", en: "Tell me more about this"}[lang]}
 							</OnboardingButton>
 						</a>
 					</p>

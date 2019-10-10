@@ -38,10 +38,11 @@ const StyledToggle = styled(Button)`
 	height: 39px;
 	margin: 10px 0 20px;
 	padding: 0;
-	border-radius: 10px;
+	border-radius: 15px;
 	font-size: 20px;
 	align-items: center;
 	justify-content: center;
+	flex-shrink: 0;
 `;
 
 const TopLogo = styled(Logo)`

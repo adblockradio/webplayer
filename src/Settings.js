@@ -196,6 +196,12 @@ Settings.prototype.addRadio = function(data) { // name, logo, url, country, code
 		data.url = "https:" + data.url.slice(5);
 	}
 
+	// enforce HTTPS for logos
+	if (data.logo.slice(0, 5) === "http:") {
+		console.log(data.name + " force HTTPS for logo: " + data.logo);
+		data.logo = "https:" + data.logo.slice(5);
+	}
+
 	var indexRadio = this.findRadioByName(data.country + "_" + data.name);
 	var radioWasNotInPlaylist;
 	if (indexRadio < 0) { // not found
