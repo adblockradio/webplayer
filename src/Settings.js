@@ -258,6 +258,10 @@ Settings.prototype.removeRadio = function(radioName) {
 	return indexRadio;
 };
 
+Settings.prototype.getUnmaintainedRadioList = function() {
+	return this.radios.filter(radio => radio.unmaintained);
+};
+
 Settings.prototype.updateUnmaintained = function(radioName, unmaintained) {
 	const indexRadio = this.findRadioByName(radioName);
 	if (indexRadio >= 0) {
