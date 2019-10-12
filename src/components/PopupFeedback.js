@@ -39,6 +39,12 @@ const Footer = styled.p`
 	margin-bottom: 0;
 `;
 
+const SuccessIcon = styled.img`
+	width: 96px;
+	height: 96px;
+	margin: 0 auto 30px;
+`;
+
 function PopupFeedback(props) {
 	const { onSend, trigger, uiLang, condensed } = props;
 
@@ -78,7 +84,12 @@ function PopupFeedback(props) {
 
 	const renderContent = close => {
 		if (isSent) {
-			return <Title>{thanks}</Title>;
+			return (
+				<>
+					<SuccessIcon src={imgOk} />
+					<Title>{thanks}</Title>
+				</>
+			);
 		}
 
 		return (
