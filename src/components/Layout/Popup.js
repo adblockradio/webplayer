@@ -42,12 +42,6 @@ const Close = styled.span`
 	cursor: pointer;
 `;
 
-
-
-const Content = styled.div`
-
-`;
-
 function Popup(props) {
 	const { trigger, children, condensed } = props;
 
@@ -82,9 +76,7 @@ function Popup(props) {
 							<Close className="glyphicon glyphicon-remove" />
 						</CloseContainer>
 
-						<Content>
-							{typeof children === "function" ? children(closeHandler) : children}
-						</Content>
+						{typeof children === "function" ? children(closeHandler) : children}
 					</Box>
 				</Overlay>
 			)}
