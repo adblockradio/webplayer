@@ -11,7 +11,6 @@ const StyledButton = styled.button`
 
 	color: #333;
 	font-size: 18px;
-	text-align: left;
 	vertical-align: middle;
 
 	background-color: #fff;
