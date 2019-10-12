@@ -63,6 +63,7 @@ const StyledButton = styled.button`
 const StyledText = styled.span`
 	display: inline-block;
 	margin-left: 10px;
+	margin-right: 35px; // Center content, take image into account
 	width: 100%;
 `;
 
