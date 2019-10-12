@@ -6,7 +6,6 @@ import RadiosCarousel from "./RadiosCarousel.js";
 import Splashscreen from "./Layout/Splashscreen";
 import MediaElement from "./MediaElement.js";
 import Onboarding from "./Onboarding/Onboarding.jsx";
-import Flag from "./Flag.jsx";
 import Menu from "./Menu";
 
 import Settings from "../Settings.js";
@@ -41,16 +40,13 @@ class App extends Component {
 			loading: true,
 			onboarding: false,
 			settings: settings,
-			mobile: false,
-			flag: false
+			mobile: false
 		};
 
 		this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
 
 		this.showOnboarding = this.showOnboarding.bind(this);
 		this.closeOnboarding = this.closeOnboarding.bind(this);
-		this.showFlag = this.showFlag.bind(this);
-		this.closeFlag = this.closeFlag.bind(this);
 	}
 
 	componentDidMount() {
@@ -103,14 +99,6 @@ class App extends Component {
 		this.toggleOnboarding(false);
 	}
 
-	showFlag() {
-		this.bsw.sendFlag();
-		this.setState({ flag: true });
-	}
-	closeFlag() {
-		this.setState({ flag: false });
-	}
-
 	render() {
 		let settings = this.state.settings;
 
@@ -130,7 +118,6 @@ class App extends Component {
 						actionType={settings.config.actionType}
 						condensed={this.state.mobile}
 						showOnboarding={this.showOnboarding}
-						showFlag={this.showFlag}
 					/>
 				)}
 				<RightUI className={classNames({ condensed: this.state.mobile })} style={{ height: window.innerHeight }}>
@@ -158,8 +145,6 @@ class App extends Component {
 						/>
 					</div>
 				</RightUI>
-
-				{this.state.flag && <Flag settings={settings} close={this.closeFlag} condensed={this.state.mobile} />}
 			</Root>
 		);
 	}

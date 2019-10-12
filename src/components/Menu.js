@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import GroupedButtons from "./Layout/GroupedButtons";
 import PopupFeedback from "./PopupFeedback";
+import PopupFlag from "./PopupFlag";
 import Sidebar from "./Layout/Sidebar";
 import Button from "./Controls/Button";
 
@@ -41,7 +42,7 @@ const Hint = styled.div`
 `;
 
 function Menu(props) {
-	const { condensed, uiLang, filterType, actionType, bsw, showOnboarding, showFlag } = props;
+	const { condensed, uiLang, filterType, actionType, bsw, showOnboarding } = props;
 
 	const filterTitle = { fr: "Je veux écouter\xa0:", en: "I want to listen to:" }[uiLang];
 
@@ -152,12 +153,12 @@ function Menu(props) {
 							onClick={showOnboarding}
 						/>
 
-						<StyledButtons
-							icon={flagIcon}
-							label={bugBtnLabel}
-							iconOnly={!isOpened}
+						<PopupFlag
+							trigger={<StyledButtons icon={flagIcon} label={bugBtnLabel} iconOnly={!isOpened} condensed={condensed} />}
+							uiLang={uiLang}
+							getUnmaintainedRadioList={bsw.getUnmaintainedRadioList}
+							onOpened={bsw.sendFlag}
 							condensed={condensed}
-							onClick={showFlag}
 						/>
 
 						<PopupFeedback
@@ -165,7 +166,8 @@ function Menu(props) {
 								<StyledButtons icon={ratings} label={suggestBtnLabel} iconOnly={!isOpened} condensed={condensed} />
 							}
 							uiLang={uiLang}
-							onSend={bsw.sendFeedback}
+							onSent={bsw.sendFeedback}
+							condensed={condensed}
 						/>
 
 						<StyledButtons
@@ -193,7 +195,6 @@ Menu.propTypes = {
 	actionType: PropTypes.number.isRequired,
 	bsw: PropTypes.object.isRequired,
 	showOnboarding: PropTypes.func.isRequired,
-	showFlag: PropTypes.func.isRequired
 };
 
 export default React.memo(Menu, (prev, next) => {
