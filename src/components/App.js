@@ -4,7 +4,6 @@ import classNames from "classnames";
 
 import RadiosCarousel from "./RadiosCarousel.js";
 import Splashscreen from "./Layout/Splashscreen";
-import { Feedback } from "./Feedback.jsx";
 import MediaElement from "./MediaElement.js";
 import Onboarding from "./Onboarding/Onboarding.jsx";
 import Flag from "./Flag.jsx";
@@ -45,7 +44,6 @@ class App extends Component {
 			onboarding: false,
 			settings: settings,
 			mobile: false,
-			feedback: false,
 			flag: false
 		};
 
@@ -53,8 +51,6 @@ class App extends Component {
 
 		this.showOnboarding = this.showOnboarding.bind(this);
 		this.closeOnboarding = this.closeOnboarding.bind(this);
-		this.showFeedback = this.showFeedback.bind(this);
-		this.closeFeedback = this.closeFeedback.bind(this);
 		this.showFlag = this.showFlag.bind(this);
 		this.closeFlag = this.closeFlag.bind(this);
 	}
@@ -107,13 +103,6 @@ class App extends Component {
 	}
 	closeOnboarding() {
 		this.toggleOnboarding(false);
-	}
-
-	showFeedback() {
-		this.setState({ feedback: true });
-	}
-	closeFeedback() {
-		this.setState({ feedback: false });
 	}
 
 	showFlag() {
