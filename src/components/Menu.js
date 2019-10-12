@@ -2,8 +2,9 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Sidebar from "./Layout/Sidebar";
 import GroupedButtons from "./Layout/GroupedButtons";
+import PopupFeedback from "./PopupFeedback";
+import Sidebar from "./Layout/Sidebar";
 import Button from "./Controls/Button";
 
 import musicIcon from "../img/type/1music.png";
@@ -40,7 +41,7 @@ const Hint = styled.div`
 `;
 
 function Menu(props) {
-	const { condensed, uiLang, filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
+	const { condensed, uiLang, filterType, actionType, bsw, showOnboarding, showFlag } = props;
 
 	const filterTitle = { fr: "Je veux écouter\xa0:", en: "I want to listen to:" }[uiLang];
 
@@ -159,12 +160,12 @@ function Menu(props) {
 							onClick={showFlag}
 						/>
 
-						<StyledButtons
-							icon={ratings}
-							label={suggestBtnLabel}
-							iconOnly={!isOpened}
-							condensed={condensed}
-							onClick={showFeedback}
+						<PopupFeedback
+							trigger={
+								<StyledButtons icon={ratings} label={suggestBtnLabel} iconOnly={!isOpened} condensed={condensed} />
+							}
+							uiLang={uiLang}
+							onSend={bsw.sendFeedback}
 						/>
 
 						<StyledButtons
@@ -192,7 +193,6 @@ Menu.propTypes = {
 	actionType: PropTypes.number.isRequired,
 	bsw: PropTypes.object.isRequired,
 	showOnboarding: PropTypes.func.isRequired,
-	showFeedback: PropTypes.func.isRequired,
 	showFlag: PropTypes.func.isRequired
 };
 
