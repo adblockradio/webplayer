@@ -3,6 +3,7 @@ import styled from "styled-components";
 import classNames from "classnames";
 
 import RadiosCarousel from "./RadiosCarousel.js";
+import Splashscreen from "./Layout/Splashscreen";
 import { Feedback } from "./Feedback.jsx";
 import MediaElement from "./MediaElement.js";
 import Onboarding from "./Onboarding/Onboarding.jsx";
@@ -16,26 +17,11 @@ const Root = styled.div`
 	overflow: auto;
 	display: flex;
 	flex-wrap: nowrap;
+	height: 100%;
 `;
 
 const RightUI = styled.div`
 	flex-grow: 1;
-`;
-
-const Loading = styled.div`
-	background: #98b3ff; /*linear-gradient(to bottom, #a4d7fe 0%, #98b3ff 100%);*/
-	height: 100vh;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-`;
-
-const LoadingLogo = styled.img`
-	width: 380px;
-	margin: auto;
-	&.condensed {
-		width: 190px;
-	}
 `;
 
 class App extends Component {
@@ -140,15 +126,7 @@ class App extends Component {
 		let settings = this.state.settings;
 
 		if (this.state.loading) {
-			return (
-				<Loading>
-					<LoadingLogo
-						src="https://static.adblockradio.com/assets/abr_transparent_head.png"
-						className={classNames({ condensed: this.state.mobile })}
-						alt="Adblock Radio loading"
-					/>
-				</Loading>
-			);
+			return <Splashscreen condensed={this.state.mobile} />;
 		}
 
 		let status = this.state.settings.accountStatus();
