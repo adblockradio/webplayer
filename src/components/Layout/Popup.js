@@ -18,21 +18,24 @@ const Overlay = styled.div`
 const Box = styled.div`
 	position: relative;
 	padding: 70px 40px 30px;
-	border-radius: 2em;
+	margin: 20px;
+	border-radius: 28px;
 	background: white;
 	z-index: 2050;
 
-	${props => props.condensed && `
-		padding: 0em 1em 0.5em 1em;
-		border-radius: 1em;
+	${props =>
+		props.condensed &&
+		`
+		padding: 15px;
+		border-radius: 14px;
 	`}
 `;
 
 const CloseContainer = styled.div`
 	position: absolute;
-	top: 20px;
-	right: 20px;
+	${props => (props.condensed ? "top: -10px; right: -10px;" : "top: 20px; right: 20px;")}
 `;
+
 const Close = styled.span`
 	padding: 2px;
 	border: 2px solid grey;
@@ -72,7 +75,7 @@ function Popup(props) {
 			{isOpen && (
 				<Overlay onClick={closeHandler}>
 					<Box onClick={contentClickHandler} condensed={condensed}>
-						<CloseContainer onClick={closeHandler}>
+						<CloseContainer onClick={closeHandler} condensed={condensed}>
 							<Close className="glyphicon glyphicon-remove" />
 						</CloseContainer>
 
