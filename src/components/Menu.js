@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import GroupedButtons from "./Layout/GroupedButtons";
 import PopupFeedback from "./PopupFeedback";
+import PopupFlag from "./PopupFlag";
 import Sidebar from "./Layout/Sidebar";
 import Button from "./Controls/Button";
 import T from "./T";
@@ -47,7 +48,7 @@ const Hint = styled.div`
 `;
 
 function Menu(props) {
-	const { filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
+	const { filterType, actionType, bsw, showOnboarding } = props;
 
 	const isDesktop = useBreakpoint("l");
 
@@ -64,7 +65,11 @@ function Menu(props) {
 		<Sidebar>
 			{isOpened => (
 				<>
-					{(isDesktop || isOpened) && <StyledTitle><T str="menu.filter.title" /></StyledTitle>}
+					{(isDesktop || isOpened) && (
+						<StyledTitle>
+							<T str="menu.filter.title" />
+						</StyledTitle>
+					)}
 
 					<StyledGroupedButtons>
 						<Button
@@ -90,7 +95,11 @@ function Menu(props) {
 						/>
 					</StyledGroupedButtons>
 
-					{(isDesktop || isOpened) && <StyledTitle><T str="menu.action.title" /></StyledTitle>}
+					{(isDesktop || isOpened) && (
+						<StyledTitle>
+							<T str="menu.action.title" />
+						</StyledTitle>
+					)}
 
 					<StyledGroupedButtons>
 						<Button
@@ -129,31 +138,29 @@ function Menu(props) {
 							onClick={showOnboarding}
 						/>
 
-						<StyledButtons
-							icon={flagIcon}
-							label={<T str="menu.flag" />}
-							iconOnly={!isOpened}
-							onClick={showFlag}
+						<PopupFlag
+							trigger={<StyledButtons icon={flagIcon} label={<T str="menu.flag" />} iconOnly={!isOpened} />}
+							getUnmaintainedRadioList={bsw.getUnmaintainedRadioList}
+							onOpened={bsw.sendFlag}
 						/>
 
 						<PopupFeedback
-							trigger={
-								<StyledButtons icon={ratings} label={<T str="menu.suggest" />} iconOnly={!isOpened} />
-							}
+							trigger={<StyledButtons icon={ratings} label={<T str="menu.suggest" />} iconOnly={!isOpened} />}
 							onSend={bsw.sendFeedback}
 						/>
 
 						<T str="menu.donate.url">
-							{value => <StyledButtons
-								icon={donate}
-								label={<T str="menu.donate" />}
-								iconOnly={!isOpened}
-								href={value}
-							/>}
+							{value => (
+								<StyledButtons icon={donate} label={<T str="menu.donate" />} iconOnly={!isOpened} href={value} />
+							)}
 						</T>
 					</GroupedButtons>
 
-					{!isDesktop && isOpened && <Hint><T str="menu.hint" /></Hint>}
+					{!isDesktop && isOpened && (
+						<Hint>
+							<T str="menu.hint" />
+						</Hint>
+					)}
 				</>
 			)}
 		</Sidebar>
@@ -166,14 +173,10 @@ Menu.propTypes = {
 	filterType: PropTypes.number.isRequired,
 	actionType: PropTypes.number.isRequired,
 	bsw: PropTypes.object.isRequired,
-	showOnboarding: PropTypes.func.isRequired,
-	showFlag: PropTypes.func.isRequired
+	showOnboarding: PropTypes.func.isRequired
 };
 
 export default React.memo(Menu, (prev, next) => {
 	// Only those props can rerender this component!
-	return (
-		prev.filterType === next.filterType &&
-		prev.actionType === next.actionType
-	);
+	return prev.filterType === next.filterType && prev.actionType === next.actionType;
 });

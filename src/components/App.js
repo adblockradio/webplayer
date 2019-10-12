@@ -6,7 +6,6 @@ import RadiosCarousel from "./RadiosCarousel.js";
 import Splashscreen from "./Layout/Splashscreen";
 import MediaElement from "./MediaElement.js";
 import Onboarding from "./Onboarding/Onboarding.jsx";
-import Flag from "./Flag.jsx";
 import Menu from "./Menu";
 
 import { LocaleContext } from "../LocaleContext";
@@ -43,16 +42,13 @@ class App extends Component {
 			loading: true,
 			onboarding: false,
 			settings: settings,
-			mobile: false,
-			flag: false
+			mobile: false
 		};
 
 		this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
 
 		this.showOnboarding = this.showOnboarding.bind(this);
 		this.closeOnboarding = this.closeOnboarding.bind(this);
-		this.showFlag = this.showFlag.bind(this);
-		this.closeFlag = this.closeFlag.bind(this);
 	}
 
 	componentDidMount() {
@@ -105,14 +101,6 @@ class App extends Component {
 		this.toggleOnboarding(false);
 	}
 
-	showFlag() {
-		this.bsw.sendFlag();
-		this.setState({ flag: true });
-	}
-	closeFlag() {
-		this.setState({ flag: false });
-	}
-
 	render() {
 		let settings = this.state.settings;
 
@@ -161,16 +149,6 @@ class App extends Component {
 							/>
 						</div>
 					</RightUI>
-
-					{this.state.feedback && (
-						<Feedback
-							send={this.bsw.sendFeedback}
-							close={this.closeFeedback}
-							settings={settings}
-							condensed={this.state.mobile}
-						/>
-					)}
-					{this.state.flag && <Flag settings={settings} close={this.closeFlag} condensed={this.state.mobile} />}
 				</Root>
 			</LocaleContext.Provider>
 		);
