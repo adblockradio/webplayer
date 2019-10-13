@@ -9,6 +9,8 @@ import Onboarding from "./Onboarding/Onboarding.jsx";
 import Flag from "./Flag.jsx";
 import Menu from "./Menu";
 
+import { LocaleContext } from "../LocaleContext";
+
 import Settings from "../Settings.js";
 import consts from "../consts.js";
 
@@ -154,54 +156,57 @@ class App extends Component {
 		let status = this.state.settings.accountStatus();
 		let onboarding = this.state.onboarding || status === consts.UI_NEED_EMAIL || status === consts.UI_WAIT_CONFIRM;
 		return (
-			<Root>
-				{!(onboarding && this.state.mobile) && (
-					<Menu
-						bsw={this.bsw}
-						uiLang={settings.config.uiLang}
-						filterType={settings.config.filterType}
-						actionType={settings.config.actionType}
-						showOnboarding={this.showOnboarding}
-						showFeedback={this.showFeedback}
-						showFlag={this.showFlag}
-					/>
-				)}
-				<RightUI className={classNames({ condensed: this.state.mobile })} style={{ height: window.innerHeight }}>
-					{onboarding ? (
-						<Onboarding
+
+			<LocaleContext.Provider value={settings.config.uiLang}>
+				<Root>
+					{!(onboarding && this.state.mobile) && (
+						<Menu
 							bsw={this.bsw}
+							uiLang={settings.config.uiLang}
+							filterType={settings.config.filterType}
+							actionType={settings.config.actionType}
+							showOnboarding={this.showOnboarding}
+							showFeedback={this.showFeedback}
+							showFlag={this.showFlag}
+						/>
+					)}
+					<RightUI className={classNames({ condensed: this.state.mobile })} style={{ height: window.innerHeight }}>
+						{onboarding ? (
+							<Onboarding
+								bsw={this.bsw}
+								settings={settings}
+								closeOnboarding={this.closeOnboarding}
+								catalog={settings.catalog}
+								condensed={this.state.mobile}
+							/>
+						) : (
+							<RadiosCarousel bsw={this.bsw} settings={settings} condensed={this.state.mobile} />
+						)}
+						<div style={{ display: "none" }}>
+							<MediaElement
+								id="player1"
+								width={0}
+								height={0}
+								url={this.state.settings.player.url}
+								volume={this.state.settings.player.volume}
+								options={"{}"}
+								onError={this.bsw.onPlayerError}
+								onPause={this.bsw.stopPlayInBackground}
+							/>
+						</div>
+					</RightUI>
+
+					{this.state.feedback && (
+						<Feedback
+							send={this.bsw.sendFeedback}
+							close={this.closeFeedback}
 							settings={settings}
-							closeOnboarding={this.closeOnboarding}
-							catalog={settings.catalog}
 							condensed={this.state.mobile}
 						/>
-					) : (
-						<RadiosCarousel bsw={this.bsw} settings={settings} condensed={this.state.mobile} />
 					)}
-					<div style={{ display: "none" }}>
-						<MediaElement
-							id="player1"
-							width={0}
-							height={0}
-							url={this.state.settings.player.url}
-							volume={this.state.settings.player.volume}
-							options={"{}"}
-							onError={this.bsw.onPlayerError}
-							onPause={this.bsw.stopPlayInBackground}
-						/>
-					</div>
-				</RightUI>
-
-				{this.state.feedback && (
-					<Feedback
-						send={this.bsw.sendFeedback}
-						close={this.closeFeedback}
-						settings={settings}
-						condensed={this.state.mobile}
-					/>
-				)}
-				{this.state.flag && <Flag settings={settings} close={this.closeFlag} condensed={this.state.mobile} />}
-			</Root>
+					{this.state.flag && <Flag settings={settings} close={this.closeFlag} condensed={this.state.mobile} />}
+				</Root>
+			</LocaleContext.Provider>
 		);
 	}
 }
