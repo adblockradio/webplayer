@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { LocaleContext } from "../LocaleContext";
 
-import { translate } from "../services/locale";
+import { translate } from "../helpers/locale";
 
 function T(props) {
 	const { str, children } = props;
