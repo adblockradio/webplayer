@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+import T from "../T";
+
 import breakpoint from "../../helpers/breakpoint";
 
 const StyledText = styled.span`
@@ -16,14 +18,23 @@ const StyledText = styled.span`
 	`}
 `;
 
-const noRadio = { fr: "Choisissez une radio à écouter", en: "Choose a radio to listen to" };
-const noSound = { fr: " (volume réduit)", en: " (muted)" };
-
+// TODO: Give radio name directly instead of whole Settings
 function PlayerStatus(props) {
 	const { radio, reducedVolume, settings } = props;
-	const lang = settings.config.uiLang;
 
-	const text = isNaN(radio) ? noRadio[lang] : settings.radios[radio].name + (reducedVolume ? noSound[lang] : "");
+	const text = isNaN(radio) ? (
+		<T str="player-status.choose" />
+	) : (
+		<>
+			{settings.radios[radio].name}
+			{reducedVolume && (
+				<>
+					{" "}
+					(<T str="player-status.muted" />)
+				</>
+			)}
+		</>
+	);
 
 	return <StyledText>{text}</StyledText>;
 }
