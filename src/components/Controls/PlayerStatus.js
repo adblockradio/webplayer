@@ -2,24 +2,32 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const StyledText = styled.span`
-  font-size: 26px;
+import T from "../T";
 
-  &.condensed {
-    font-size: 18px;
-  }
+const StyledText = styled.span`
+	font-size: 26px;
+	${props => props.condensed && "font-size: 18px;"}
 `;
 
-const noRadio = { fr: "Choisissez une radio à écouter", en: "Choose a radio to listen to" };
-const noSound = { fr: " (volume réduit)", en: " (muted)" };
-
+// TODO: Give radio name directly instead of whole Settings
 function PlayerStatus(props) {
 	const { condensed, radio, reducedVolume, settings } = props;
-	const lang = settings.config.uiLang;
 
-	const text = isNaN(radio) ? noRadio[lang] : settings.radios[radio].name + (reducedVolume ? noSound[lang] : "");
+	const text = isNaN(radio) ? (
+		<T str="player-status.choose" />
+	) : (
+		<>
+			{settings.radios[radio].name}
+			{reducedVolume && (
+				<>
+					{" "}
+					(<T str="player-status.muted" />)
+				</>
+			)}
+		</>
+	);
 
-	return <StyledText className={condensed && "condensed"}>{text}</StyledText>;
+	return <StyledText condensed={condensed}>{text}</StyledText>;
 }
 
 PlayerStatus.defaults = {
