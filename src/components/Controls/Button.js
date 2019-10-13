@@ -124,7 +124,7 @@ Button.defaults = {
 };
 
 Button.propTypes = {
-	label: PropTypes.string,
+	label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 	active: PropTypes.bool,
 	iconOnly: PropTypes.bool,
 	disabled: PropTypes.bool,

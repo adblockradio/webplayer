@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Sidebar from "./Layout/Sidebar";
 import GroupedButtons from "./Layout/GroupedButtons";
 import Button from "./Controls/Button";
+import T from "./T";
 
 import musicIcon from "../img/type/1music.png";
 import speechIcon from "../img/type/2speech.png";
@@ -45,66 +46,42 @@ const Hint = styled.div`
 `;
 
 function Menu(props) {
-	const { uiLang, filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
+	const { filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
 
 	const isDesktop = useBreakpoint("l");
-
-	const filterTitle = { fr: "Je veux écouter\xa0:", en: "I want to listen to:" }[uiLang];
-
-	const musicBtnLabel = { fr: "Musique", en: "Music only" }[uiLang];
-	const speechBtnLabel = { fr: "Pas de pub", en: "Music & talk" }[uiLang];
-	const adsBtnLabel = { fr: "Sans filtre", en: "Anything" }[uiLang];
 
 	const setFilterMusic = useCallback(() => bsw.changeFilterType(consts.FILTER_MUSIC), []);
 	const setFilterSpeech = useCallback(() => bsw.changeFilterType(consts.FILTER_SPEECH), []);
 	const setFilterOff = useCallback(() => bsw.changeFilterType(consts.FILTER_OFF), []);
 
-	const actionTitle = { fr: "En cas de pub…", en: "On ad detection…" }[uiLang];
-
-	const muteBtnLabel = { fr: "Silence", en: "Mute" }[uiLang];
-	const podiumBtnLabel = { fr: "Zappe & revient", en: "Hop & return" }[uiLang];
-	const roundaboutBtnLabel = { fr: "Zappe & reste", en: "Hop & stay" }[uiLang];
-
 	const setActionMute = useCallback(() => bsw.changeActionType(consts.ACTION_MUTE), []);
 	const setActionPodium = useCallback(() => bsw.changeActionType(consts.ACTION_PODIUM), []);
 	const setActionRoundabout = useCallback(() => bsw.changeActionType(consts.ACTION_ROUNDABOUT), []);
-
-	const settingsBtnLabel = { fr: "Réglages", en: "Settings" }[uiLang];
-	const bugBtnLabel = { fr: "Bug de filtrage\xa0?", en: "Filtering error?" }[uiLang];
-	const suggestBtnLabel = { fr: "Vos suggestions", en: "Give feedback" }[uiLang];
-	const donateBtnLabel = { fr: "Faites un don", en: "Donate" }[uiLang];
-
-	const hintLabel = {
-		fr:
-			"Astuce: sur Chrome mobile, ce site est une application installable. Allez dans le menu et cliquez sur \"Ajouter à l'écran d'accueil\".",
-		en:
-			"Tip: on Chrome mobile, this website is an installable application. Open the menu and click on \"Add to home screen\"."
-	}[uiLang];
 
 	// TODO: Migrate Sidebar isOpened argument to React.Context?
 	return (
 		<Sidebar>
 			{isOpened => (
 				<>
-					{(isDesktop || isOpened) && <StyledTitle>{filterTitle}</StyledTitle>}
+					{(isDesktop || isOpened) && <StyledTitle><T str="menu.filter.title" /></StyledTitle>}
 
 					<StyledGroupedButtons>
 						<Button
-							label={musicBtnLabel}
+							label={<T str="menu.filter.music" />}
 							icon={musicIcon}
 							iconOnly={!isOpened}
 							active={filterType === consts.FILTER_MUSIC}
 							onClick={setFilterMusic}
 						/>
 						<Button
-							label={speechBtnLabel}
+							label={<T str="menu.filter.speech" />}
 							icon={speechIcon}
 							iconOnly={!isOpened}
 							active={filterType === consts.FILTER_SPEECH}
 							onClick={setFilterSpeech}
 						/>
 						<Button
-							label={adsBtnLabel}
+							label={<T str="menu.filter.ads" />}
 							icon={adsIcon}
 							iconOnly={!isOpened}
 							active={filterType === consts.FILTER_OFF}
@@ -112,11 +89,11 @@ function Menu(props) {
 						/>
 					</StyledGroupedButtons>
 
-					{(isDesktop || isOpened) && <StyledTitle>{actionTitle}</StyledTitle>}
+					{(isDesktop || isOpened) && <StyledTitle><T str="menu.action.title" /></StyledTitle>}
 
 					<StyledGroupedButtons>
 						<Button
-							label={muteBtnLabel}
+							label={<T str="menu.action.mute" />}
 							icon={mute}
 							iconOnly={!isOpened}
 							active={actionType === consts.ACTION_MUTE}
@@ -125,7 +102,7 @@ function Menu(props) {
 						/>
 
 						<Button
-							label={podiumBtnLabel}
+							label={<T str="menu.action.podium" />}
 							icon={podium}
 							iconOnly={!isOpened}
 							active={actionType === consts.ACTION_PODIUM}
@@ -134,7 +111,7 @@ function Menu(props) {
 						/>
 
 						<Button
-							label={roundaboutBtnLabel}
+							label={<T str="menu.action.roundabout" />}
 							icon={roundabout}
 							iconOnly={!isOpened}
 							active={actionType === consts.ACTION_ROUNDABOUT}
@@ -146,34 +123,36 @@ function Menu(props) {
 					<GroupedButtons spaced={true}>
 						<StyledButtons
 							icon={wand}
-							label={settingsBtnLabel}
+							label={<T str="menu.settings" />}
 							iconOnly={!isOpened}
 							onClick={showOnboarding}
 						/>
 
 						<StyledButtons
 							icon={flagIcon}
-							label={bugBtnLabel}
+							label={<T str="menu.flag" />}
 							iconOnly={!isOpened}
 							onClick={showFlag}
 						/>
 
 						<StyledButtons
 							icon={ratings}
-							label={suggestBtnLabel}
+							label={<T str="menu.suggest" />}
 							iconOnly={!isOpened}
 							onClick={showFeedback}
 						/>
 
-						<StyledButtons
-							icon={donate}
-							label={donateBtnLabel}
-							iconOnly={!isOpened}
-							href={`https://${uiLang}.liberapay.com/asto/donate`}
-						/>
+						<T str="menu.donate.url">
+							{value => <StyledButtons
+								icon={donate}
+								label={<T str="menu.donate" />}
+								iconOnly={!isOpened}
+								href={value}
+							/>}
+						</T>
 					</GroupedButtons>
 
-					{!isDesktop && isOpened && <Hint>{hintLabel}</Hint>}
+					{!isDesktop && isOpened && <Hint><T str="menu.hint" /></Hint>}
 				</>
 			)}
 		</Sidebar>
@@ -183,7 +162,6 @@ function Menu(props) {
 Menu.defaults = {};
 
 Menu.propTypes = {
-	uiLang: PropTypes.string.isRequired,
 	filterType: PropTypes.number.isRequired,
 	actionType: PropTypes.number.isRequired,
 	bsw: PropTypes.object.isRequired,
@@ -195,7 +173,6 @@ Menu.propTypes = {
 export default React.memo(Menu, (prev, next) => {
 	// Only those props can rerender this component!
 	return (
-		prev.uiLang === next.uiLang &&
 		prev.filterType === next.filterType &&
 		prev.actionType === next.actionType
 	);
