@@ -2,17 +2,20 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+import breakpoint from "../../helpers/breakpoint";
+
 // I didn't success to refer directly to the Button component. So I used `a` & `button` instead.
 const StyledGroupedButton = styled.div`
 	display: flex;
 	flex-direction: column;
-	${props => !props.condensed && "width: 240px;"}
-	/* align-items: center; */
+
+	${breakpoint.min.l`
+		width: 240px;
+	`}
 
 	& > button,
 	& > a {
-		${props => props.condensed &&
-			`
+		${breakpoint.max.l`
 			&:first-child {
 				border-bottom-left-radius: 0;
 				border-bottom-right-radius: 0;
@@ -33,10 +36,10 @@ const StyledGroupedButton = styled.div`
 `;
 
 function GroupedButtons(props) {
-	const { children, className, spaced, condensed } = props;
+	const { children, className, spaced } = props;
 
 	return (
-		<StyledGroupedButton className={className} spaced={spaced} condensed={condensed}>
+		<StyledGroupedButton className={className} spaced={spaced}>
 			{children}
 		</StyledGroupedButton>
 	);
@@ -44,14 +47,12 @@ function GroupedButtons(props) {
 
 GroupedButtons.defaults = {
 	className: null,
-	spaced: false,
-	condensed: false
+	spaced: false
 };
 
 GroupedButtons.propTypes = {
 	className: PropTypes.string,
 	spaced: PropTypes.bool,
-	condensed: PropTypes.bool,
 	children: PropTypes.array.isRequired
 };
 

@@ -161,7 +161,6 @@ class App extends Component {
 						uiLang={settings.config.uiLang}
 						filterType={settings.config.filterType}
 						actionType={settings.config.actionType}
-						condensed={this.state.mobile}
 						showOnboarding={this.showOnboarding}
 						showFeedback={this.showFeedback}
 						showFlag={this.showFlag}

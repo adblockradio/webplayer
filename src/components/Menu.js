@@ -17,6 +17,9 @@ import ratings from "../img/ratings100.png";
 import flagIcon from "../img/flag2.svg";
 import donate from "../img/donate_2226736.svg";
 
+import { useBreakpoint } from "../helpers/hooks";
+import breakpoint from "../helpers/breakpoint";
+
 import consts from "../consts.js";
 
 const StyledTitle = styled.div`
@@ -26,8 +29,10 @@ const StyledTitle = styled.div`
 `;
 
 const StyledGroupedButtons = styled(GroupedButtons)`
-	margin-bottom: 40px;
-	${props => props.condensed && "margin-bottom: 10px;"}
+	margin-bottom: 10px;
+	${breakpoint.min.l`
+		margin-bottom: 40px;
+	`}
 `;
 const StyledButtons = styled(Button)`
 	margin-bottom: 15px;
@@ -40,7 +45,9 @@ const Hint = styled.div`
 `;
 
 function Menu(props) {
-	const { condensed, uiLang, filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
+	const { uiLang, filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
+
+	const isDesktop = useBreakpoint("l");
 
 	const filterTitle = { fr: "Je veux écouter\xa0:", en: "I want to listen to:" }[uiLang];
 
@@ -76,17 +83,16 @@ function Menu(props) {
 
 	// TODO: Migrate Sidebar isOpened argument to React.Context?
 	return (
-		<Sidebar condensed={condensed}>
+		<Sidebar>
 			{isOpened => (
 				<>
-					{(!condensed || isOpened) && <StyledTitle>{filterTitle}</StyledTitle>}
+					{(isDesktop || isOpened) && <StyledTitle>{filterTitle}</StyledTitle>}
 
-					<StyledGroupedButtons condensed={condensed}>
+					<StyledGroupedButtons>
 						<Button
 							label={musicBtnLabel}
 							icon={musicIcon}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={filterType === consts.FILTER_MUSIC}
 							onClick={setFilterMusic}
 						/>
@@ -94,7 +100,6 @@ function Menu(props) {
 							label={speechBtnLabel}
 							icon={speechIcon}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={filterType === consts.FILTER_SPEECH}
 							onClick={setFilterSpeech}
 						/>
@@ -102,20 +107,18 @@ function Menu(props) {
 							label={adsBtnLabel}
 							icon={adsIcon}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={filterType === consts.FILTER_OFF}
 							onClick={setFilterOff}
 						/>
 					</StyledGroupedButtons>
 
-					{(!condensed || isOpened) && <StyledTitle>{actionTitle}</StyledTitle>}
+					{(isDesktop || isOpened) && <StyledTitle>{actionTitle}</StyledTitle>}
 
-					<StyledGroupedButtons condensed={condensed}>
+					<StyledGroupedButtons>
 						<Button
 							label={muteBtnLabel}
 							icon={mute}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={actionType === consts.ACTION_MUTE}
 							onClick={setActionMute}
 							disabled={filterType === consts.FILTER_OFF}
@@ -125,7 +128,6 @@ function Menu(props) {
 							label={podiumBtnLabel}
 							icon={podium}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={actionType === consts.ACTION_PODIUM}
 							onClick={setActionPodium}
 							disabled={filterType === consts.FILTER_OFF}
@@ -135,19 +137,17 @@ function Menu(props) {
 							label={roundaboutBtnLabel}
 							icon={roundabout}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={actionType === consts.ACTION_ROUNDABOUT}
 							onClick={setActionRoundabout}
 							disabled={filterType === consts.FILTER_OFF}
 						/>
 					</StyledGroupedButtons>
 
-					<GroupedButtons spaced={true} condensed={condensed}>
+					<GroupedButtons spaced={true}>
 						<StyledButtons
 							icon={wand}
 							label={settingsBtnLabel}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							onClick={showOnboarding}
 						/>
 
@@ -155,7 +155,6 @@ function Menu(props) {
 							icon={flagIcon}
 							label={bugBtnLabel}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							onClick={showFlag}
 						/>
 
@@ -163,7 +162,6 @@ function Menu(props) {
 							icon={ratings}
 							label={suggestBtnLabel}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							onClick={showFeedback}
 						/>
 
@@ -171,12 +169,11 @@ function Menu(props) {
 							icon={donate}
 							label={donateBtnLabel}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							href={`https://${uiLang}.liberapay.com/asto/donate`}
 						/>
 					</GroupedButtons>
 
-					{condensed && isOpened && <Hint>{hintLabel}</Hint>}
+					{!isDesktop && isOpened && <Hint>{hintLabel}</Hint>}
 				</>
 			)}
 		</Sidebar>
@@ -186,7 +183,6 @@ function Menu(props) {
 Menu.defaults = {};
 
 Menu.propTypes = {
-	condensed: PropTypes.bool.isRequired,
 	uiLang: PropTypes.string.isRequired,
 	filterType: PropTypes.number.isRequired,
 	actionType: PropTypes.number.isRequired,
@@ -199,7 +195,6 @@ Menu.propTypes = {
 export default React.memo(Menu, (prev, next) => {
 	// Only those props can rerender this component!
 	return (
-		prev.condensed === next.condensed &&
 		prev.uiLang === next.uiLang &&
 		prev.filterType === next.filterType &&
 		prev.actionType === next.actionType
