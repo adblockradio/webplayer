@@ -1,4 +1,21 @@
 {
   "player-status.choose": "Choisissez une radio à écouter",
-  "player-status.muted": "volume réduit"
+  "player-status.muted": "volume réduit",
+
+  "menu.filter.title": "Je veux écouter :",
+  "menu.filter.music": "Musique",
+  "menu.filter.speech": "Pas de pub",
+  "menu.filter.ads": "Sans filtre",
+
+  "menu.action.title": "En cas de pub…",
+  "menu.action.mute": "Silence",
+  "menu.action.podium": "Zappe & revient",
+  "menu.action.roundabout": "Zappe & reste",
+
+  "menu.settings": "Réglages",
+  "menu.flag": "Bug de filtrage ?",
+  "menu.suggest": "Vos suggestions",
+  "menu.donate": "Faites un don",
+  "menu.donate.url": "https://fr.liberapay.com/asto/donate",
+  "menu.hint": "Astuce: sur Chrome mobile, ce site est une application installable. Allez dans le menu et cliquez sur \"Ajouter à l'écran d'accueil\"."
 }

@@ -1,4 +1,21 @@
 {
   "player-status.choose": "Choose a radio to listen to",
-  "player-status.muted": "muted"
+  "player-status.muted": "muted",
+
+  "menu.filter.title": "I want to listen to:",
+  "menu.filter.music": "Music only",
+  "menu.filter.speech": "Music & talk",
+  "menu.filter.ads": "Anything",
+
+  "menu.action.title": "On ad detection…",
+  "menu.action.mute": "Mute",
+  "menu.action.podium": "Hop & return",
+  "menu.action.roundabout": "Hop & stay",
+
+  "menu.settings": "Settings",
+  "menu.flag": "Filtering error?",
+  "menu.suggest": "Give feedback",
+  "menu.donate": "Donate",
+  "menu.donate.url": "https://en.liberapay.com/asto/donate",
+  "menu.hint": "Tip: on Chrome mobile, this website is an installable application. Open the menu and click on \"Add to home screen\"."
 }

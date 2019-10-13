@@ -161,7 +161,6 @@ class App extends Component {
 					{!(onboarding && this.state.mobile) && (
 						<Menu
 							bsw={this.bsw}
-							uiLang={settings.config.uiLang}
 							filterType={settings.config.filterType}
 							actionType={settings.config.actionType}
 							condensed={this.state.mobile}
