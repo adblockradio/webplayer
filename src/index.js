@@ -18,4 +18,4 @@ loadCSS("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
-track();
+// track();
