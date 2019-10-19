@@ -36,7 +36,6 @@
   "plugins": [
     "transform-decorators-legacy"
   ],
-  "homepage": "https://www.adblockradio.com/player",
   "browserslist": [
     ">0.2%",
     "not dead",
