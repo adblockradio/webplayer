@@ -42,7 +42,7 @@ const Hint = styled.div`
 function Menu(props) {
 	const { condensed, uiLang, filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
 
-	const filterTitle = { fr: "Je veux écouter\xa0:", en: "I want to listen to:" }[uiLang];
+	const filterTitle = { fr: "TEST1 Je veux écouter\xa0:", en: "I want to listen to:" }[uiLang];
 
 	const musicBtnLabel = { fr: "Musique", en: "Music only" }[uiLang];
 	const speechBtnLabel = { fr: "Pas de pub", en: "Music & talk" }[uiLang];
