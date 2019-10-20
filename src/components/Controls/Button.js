@@ -87,10 +87,6 @@ function Button(props) {
 	const buttonProps = { as: "button", onClick };
 	const displayText = (!isDesktop && !iconOnly) || isDesktop;
 
-	if (!isDesktop && !icon && !glyphicon) {
-		return null;
-	}
-
 	const iconElement = icon ? (
 		<StyledIcon src={icon} active={active} disabled={disabled} />
 	) : (
