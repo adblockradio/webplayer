@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import classNames from "classnames";
 
 import RadiosCarousel from "./RadiosCarousel.js";
 import Splashscreen from "./Layout/Splashscreen";
@@ -22,6 +21,7 @@ const Root = styled.div`
 
 const RightUI = styled.div`
 	flex-grow: 1;
+	height: 100%;
 `;
 
 class App extends Component {
@@ -114,15 +114,13 @@ class App extends Component {
 
 			<LocaleContext.Provider value={settings.config.uiLang}>
 				<Root>
-					{!(onboarding && this.state.mobile) && (
-						<Menu
-							bsw={this.bsw}
-							filterType={settings.config.filterType}
-							actionType={settings.config.actionType}
-							showOnboarding={this.showOnboarding}
-						/>
-					)}
-					<RightUI className={classNames({ condensed: this.state.mobile })} style={{ height: window.innerHeight }}>
+					<Menu
+						bsw={this.bsw}
+						filterType={settings.config.filterType}
+						actionType={settings.config.actionType}
+						showOnboarding={this.showOnboarding}
+					/>
+					<RightUI>
 						{onboarding ? (
 							<Onboarding
 								bsw={this.bsw}

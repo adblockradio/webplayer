@@ -8,7 +8,7 @@ import { useBreakpoint } from "../../helpers/hooks";
 import breakpoint from "../../helpers/breakpoint";
 
 const StyledSidebar = styled.div`
-	height: 100vh;
+	height: 100%;
 	width: 60px;
 
 	overflow: auto;
