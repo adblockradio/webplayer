@@ -41,7 +41,7 @@ function GroupedButtons(props) {
 	);
 }
 
-GroupedButtons.defaults = {
+GroupedButtons.defaultProps = {
 	className: null,
 	spaced: false
 };

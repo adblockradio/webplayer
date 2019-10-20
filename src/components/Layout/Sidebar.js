@@ -87,7 +87,7 @@ function Sidebar(props) {
 	);
 }
 
-Sidebar.defaults = {
+Sidebar.defaultProps = {
 	children: () => {}
 };
 

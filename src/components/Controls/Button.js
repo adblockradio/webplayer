@@ -104,7 +104,7 @@ function Button(props) {
 	);
 }
 
-Button.defaults = {
+Button.defaultProps = {
 	label: null,
 	active: false,
 	iconOnly: false,

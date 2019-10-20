@@ -39,7 +39,7 @@ function PlayerStatus(props) {
 	return <StyledText>{text}</StyledText>;
 }
 
-PlayerStatus.defaults = {
+PlayerStatus.defaultProps = {
 	reducedVolume: false
 };
 

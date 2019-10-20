@@ -172,8 +172,6 @@ function Menu(props) {
 	);
 }
 
-Menu.defaults = {};
-
 Menu.propTypes = {
 	filterType: PropTypes.number.isRequired,
 	actionType: PropTypes.number.isRequired,

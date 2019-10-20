@@ -10,7 +10,7 @@ function T(props) {
 	return <LocaleContext.Consumer>{value => children ? children(translate(value, str)) : translate(value, str)}</LocaleContext.Consumer>;
 }
 
-T.propDefaults = {
+T.defaultProps = {
 	children: null,
 };
 
