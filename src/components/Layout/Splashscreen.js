@@ -1,6 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
+
+import breakpoint from "../../helpers/breakpoint";
 
 const StyledSplashscreen = styled.div`
 	display: flex;
@@ -10,27 +11,20 @@ const StyledSplashscreen = styled.div`
 	background: #98b3ff;
 
 	img {
-		width: 380px;
-		${props => props.condensed && "width: 190px;"}
+		width: 190px;
+
+		${breakpoint.min.l`
+			width: 380px;
+		`}
 	}
 `;
 
-function Splashscreen(props) {
-	const { condensed } = props;
-
+function Splashscreen() {
 	return (
-		<StyledSplashscreen condensed={condensed}>
+		<StyledSplashscreen>
 			<img src="https://static.adblockradio.com/assets/abr_transparent_head.png" alt="Adblock Radio loading" />
 		</StyledSplashscreen>
 	);
 }
-
-Splashscreen.defaults = {
-	condensed: false
-};
-
-Splashscreen.propTypes = {
-	condensed: PropTypes.bool
-};
 
 export default Splashscreen;

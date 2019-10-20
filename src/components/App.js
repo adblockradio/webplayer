@@ -105,7 +105,7 @@ class App extends Component {
 		let settings = this.state.settings;
 
 		if (this.state.loading) {
-			return <Splashscreen condensed={this.state.mobile} />;
+			return <Splashscreen />;
 		}
 
 		let status = this.state.settings.accountStatus();
