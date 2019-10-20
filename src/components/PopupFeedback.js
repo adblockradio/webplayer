@@ -47,7 +47,7 @@ const SuccessIcon = styled.img`
 `;
 
 function PopupFeedback(props) {
-	const { onSent, trigger } = props;
+	const { onSend, trigger } = props;
 
 	const [isSent, setSent] = useState(false);
 	const [thumbs, setThumbs] = useState();
@@ -58,7 +58,7 @@ function PopupFeedback(props) {
 
 	const sendHandler = callback => {
 		setSent(true);
-		onSent(thumbs, textareaRef.current.value);
+		onSend(thumbs, textareaRef.current.value);
 		textareaRef.current.value = "";
 		setThumbs(null);
 
@@ -139,7 +139,7 @@ function PopupFeedback(props) {
 }
 
 PopupFeedback.propTypes = {
-	onSent: PropTypes.func.isRequired,
+	onSend: PropTypes.func.isRequired,
 	trigger: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired
 };
 
