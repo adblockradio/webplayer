@@ -120,8 +120,6 @@ class App extends Component {
 							filterType={settings.config.filterType}
 							actionType={settings.config.actionType}
 							showOnboarding={this.showOnboarding}
-							showFeedback={this.showFeedback}
-							showFlag={this.showFlag}
 						/>
 					)}
 					<RightUI className={classNames({ condensed: this.state.mobile })} style={{ height: window.innerHeight }}>
