@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+import breakpoint from "../../helpers/breakpoint";
+
 const Overlay = styled.div`
 	position: fixed;
 	display: flex;
@@ -17,23 +19,27 @@ const Overlay = styled.div`
 
 const Box = styled.div`
 	position: relative;
-	padding: 70px 40px 30px;
+	padding: 15px;
 	margin: 20px;
-	border-radius: 28px;
+	border-radius: 14px;
 	background: white;
 	z-index: 2050;
 
-	${props =>
-		props.condensed &&
-		`
-		padding: 15px;
-		border-radius: 14px;
+	${breakpoint.min.l`
+		padding: 70px 40px 30px;
+		border-radius: 28px;
 	`}
 `;
 
 const CloseContainer = styled.div`
 	position: absolute;
-	${props => (props.condensed ? "top: -10px; right: -10px;" : "top: 20px; right: 20px;")}
+	top: -10px;
+	right: -10px;
+
+	${breakpoint.min.l`
+		top: 20px;
+		right: 20px;
+	`}
 `;
 
 const Close = styled.span`
@@ -46,7 +52,7 @@ const Close = styled.span`
 `;
 
 function Popup(props) {
-	const { trigger, children, condensed } = props;
+	const { trigger, children } = props;
 
 	const [isOpen, setOpen] = useState(false);
 
@@ -74,8 +80,8 @@ function Popup(props) {
 			{renderTrigger()}
 			{isOpen && (
 				<Overlay onClick={closeHandler}>
-					<Box onClick={contentClickHandler} condensed={condensed}>
-						<CloseContainer onClick={closeHandler} condensed={condensed}>
+					<Box onClick={contentClickHandler}>
+						<CloseContainer onClick={closeHandler}>
 							<Close className="glyphicon glyphicon-remove" />
 						</CloseContainer>
 
@@ -87,12 +93,7 @@ function Popup(props) {
 	);
 }
 
-Popup.defaults = {
-	condensed: false
-};
-
 Popup.propTypes = {
-	condensed: PropTypes.bool,
 	children: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired,
 	trigger: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired
 };

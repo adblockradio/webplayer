@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import Popup from "./Layout/Popup.js";
 import Button from "./Controls/Button";
+import T from "./T";
 
 import imgThumbsUp from "../img/ratings_thumbs_up96.png";
 import imgThumbsDown from "../img/ratings_thumbs_down96.png";
@@ -46,7 +47,7 @@ const SuccessIcon = styled.img`
 `;
 
 function PopupFeedback(props) {
-	const { onSent, trigger, uiLang, condensed } = props;
+	const { onSent, trigger } = props;
 
 	const [isSent, setSent] = useState(false);
 	const [thumbs, setThumbs] = useState();
@@ -67,77 +68,77 @@ function PopupFeedback(props) {
 		}, 3000);
 	};
 
-	const title = { fr: "Que pensez-vous d'Adblock Radio?", en: "Rate your experience" }[uiLang];
-	const descUp = { fr: "Super que le service vous plaise !", en: "Glad you like it!" }[uiLang];
-	const descDown = { fr: "Dites-nous comment nous pourrions mieux faire.", en: "Tell us how to do better" }[uiLang];
-	const altUp = { fr: "Ça me plaît !", en: "I love it!" }[uiLang];
-	const altDown = { fr: "Peut mieux faire", en: "Can do better" }[uiLang];
-	const contrib = {
-		fr: "Ce lecteur est open-source. Contribuez sur Github",
-		en: "This player is free software. Contribute on Github"
-	}[uiLang];
-	const thanks = { fr: "Merci de votre retour !", en: "Thanks for your feedback!" }[uiLang];
-	const placeholder = { fr: "Donnez ici plus de détails…", en: "Please elaborate…" }[uiLang];
-	const sendText = { fr: "Envoyer", en: "Send" }[uiLang];
-
-	const desc = thumbs === "up" ? descUp : descDown;
+	const desc = thumbs === "up" ? <T str="popup.feedback.desc.up" /> : <T str="popup.feedback.desc.down" />;
 
 	const renderContent = close => {
 		if (isSent) {
 			return (
 				<>
 					<SuccessIcon src={imgOk} />
-					<Title>{thanks}</Title>
+					<Title>
+						<T str="popup.feedback.thanks" />
+					</Title>
 				</>
 			);
 		}
 
 		return (
 			<>
-				<Title>{title}</Title>
+				<Title>
+					<T str="popup.feedback.title" />
+				</Title>
 
 				<div>
-					<ThumbsIcon src={imgThumbsUp} alt={altUp} onClick={thumbsUpHandler} selected={thumbs === "up"} up />
-					<ThumbsIcon src={imgThumbsDown} alt={altDown} onClick={thumbsDownHandler} selected={thumbs === "down"} down />
+					<T str="popup.feedback.alt.up">
+						{value => (
+							<ThumbsIcon src={imgThumbsUp} alt={value} onClick={thumbsUpHandler} selected={thumbs === "up"} up />
+						)}
+					</T>
+					<T str="popup.feedback.alt.down">
+						{value => (
+							<ThumbsIcon
+								src={imgThumbsDown}
+								alt={value}
+								onClick={thumbsDownHandler}
+								selected={thumbs === "down"}
+								down
+							/>
+						)}
+					</T>
 				</div>
 
 				{thumbs && (
 					<>
 						<ThumbsDesc>{desc}</ThumbsDesc>
-						<textarea
-							style={{ marginTop: 20, width: "100%" }} // Unable to use useRef on a styled component...
-							rows="3"
-							ref={textareaRef}
-							placeholder={placeholder}
-						></textarea>
 
-						<StyledButton active onClick={() => sendHandler(close)} label={sendText} />
+						<T str="popup.feedback.placeholder">
+							{value => (
+								<textarea
+									style={{ marginTop: 20, width: "100%" }} // Unable to use useRef on a styled component...
+									rows="3"
+									ref={textareaRef}
+									placeholder={value}
+								></textarea>
+							)}
+						</T>
+
+						<StyledButton active onClick={() => sendHandler(close)} label={<T str="popup.feedback.send" />} />
 					</>
 				)}
 
 				<Footer>
-					<a href="https://github.com/adblockradio/webplayor" target="_blank" rel="noopener noreferrer">
-						{contrib}
+					<a href="https://github.com/adblockradio/webplayer" target="_blank" rel="noopener noreferrer">
+						<T str="popup.feedback.contrib" />
 					</a>
 				</Footer>
 			</>
 		);
 	};
 
-	return (
-		<Popup condensed={condensed} trigger={trigger}>
-			{renderContent}
-		</Popup>
-	);
+	return <Popup trigger={trigger}>{renderContent}</Popup>;
 }
 
-PopupFeedback.defaults = {
-	condensed: false
-};
-
 PopupFeedback.propTypes = {
-	condensed: PropTypes.bool,
-	uiLang: PropTypes.string.isRequired,
 	onSent: PropTypes.func.isRequired,
 	trigger: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired
 };

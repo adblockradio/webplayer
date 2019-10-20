@@ -4,6 +4,9 @@ import styled from "styled-components";
 
 import CountryFlag from "./CountryFlag.js";
 import Popup from "./Layout/Popup.js";
+import T from "./T";
+
+import breakpoint from "../helpers/breakpoint";
 
 import imgOk from "../img/ok_pink.png";
 
@@ -49,21 +52,17 @@ const CustomButton = styled.button`
 `;
 
 const CountryFlagContainer = styled.div`
-	${props => (props.condensed ? "text-align: left; padding-left: 20px;" : "display: inline-block;")}
+	text-align: left;
+	padding-left: 20px;
+
+	${breakpoint.min.l`
+		display: inline-block;
+		padding-left: 0;
+	`}
 `;
 
 function PopupFlag(props) {
-	const { uiLang, getUnmaintainedRadioList, condensed, trigger, onOpened } = props;
-
-	const thanks = { fr: "Merci du signalement", en: "Thanks for your contribution" }[uiLang];
-	const desc = { fr: "Un signalement toutes les 2-3 minutes suffit", en: "A flag every 2-3 minutes is enough" }[uiLang];
-	const help = {
-		fr: "Pour garantir la qualité du filtre à publicités, Adblock Radio a besoin de votre aide pour:",
-		en: "To guarantee the quality of the ad filters, Adblock Radio needs your help to support:"
-	}[uiLang];
-
-	const wantMore = { fr: "Je veux en savoir plus", en: "Tell me more about this" }[uiLang];
-	const closeTxt = { fr: "Fermer", en: "Close" }[uiLang];
+	const { getUnmaintainedRadioList, trigger, onOpened } = props;
 
 	const renderContent = close => {
 		onOpened();
@@ -71,7 +70,7 @@ function PopupFlag(props) {
 
 		const renderRadioList = () => {
 			return unmaintainedRadios.map(radio => (
-				<CountryFlagContainer condensed={condensed} key={radio.name}>
+				<CountryFlagContainer key={radio.name}>
 					<CountryFlag country={radio.country} selected={false} width={32} height={24} />
 					{radio.name}
 				</CountryFlagContainer>
@@ -84,8 +83,12 @@ function PopupFlag(props) {
 			return (
 				<>
 					<SuccessIcon src={imgOk} />
-					<Title>{thanks}</Title>
-					<Desc>{desc}</Desc>
+					<Title>
+						<T str="popup.flag.thanks" />
+					</Title>
+					<Desc>
+						<T str="popup.flag.desc" />
+					</Desc>
 				</>
 			);
 		}
@@ -94,8 +97,12 @@ function PopupFlag(props) {
 			return (
 				<>
 					<SuccessIcon src={imgOk} />
-					<Title>{thanks}</Title>
-					<p>{help}</p>
+					<Title>
+						<T str="popup.flag.thanks" />
+					</Title>
+					<p>
+						<T str="popup.flag.help" />
+					</p>
 
 					{renderRadioList()}
 
@@ -106,28 +113,20 @@ function PopupFlag(props) {
 						rel="noopener noreferrer"
 						active
 					>
-						{wantMore}
+						<T str="popup.flag.more" />
 					</CustomButton>
-					<CustomButton onClick={close}>{closeTxt}</CustomButton>
+					<CustomButton onClick={close}>
+						<T str="popup.flag.close" />
+					</CustomButton>
 				</>
 			);
 		}
 	};
 
-	return (
-		<Popup condensed={condensed} trigger={trigger}>
-			{renderContent}
-		</Popup>
-	);
+	return <Popup trigger={trigger}>{renderContent}</Popup>;
 }
 
-PopupFlag.defaults = {
-	condensed: false
-};
-
 PopupFlag.propTypes = {
-	condensed: PropTypes.bool,
-	uiLang: PropTypes.string.isRequired,
 	getUnmaintainedRadioList: PropTypes.func.isRequired,
 	trigger: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired,
 	onOpened: PropTypes.func.isRequired
