@@ -5,7 +5,6 @@ import classNames from "classnames";
 
 import consts from "../../consts.js";
 import RegistrationStatus from "../RegistrationStatus.js";
-//import FilterContentIcons from "./FilterContentIcons";
 import ListRadios from "../ListRadios";
 import OnboardingSteps from "./OnboardingSteps.jsx";
 import ChooseFilter from "./ChooseFilter.jsx";
