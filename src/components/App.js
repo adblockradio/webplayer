@@ -13,8 +13,8 @@ import Settings from "../Settings.js";
 import consts from "../consts.js";
 
 const Root = styled.div`
-	overflow: auto;
 	display: flex;
+	overflow: hidden;
 	flex-wrap: nowrap;
 	height: 100%;
 `;
