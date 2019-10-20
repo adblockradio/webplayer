@@ -33,9 +33,14 @@ const StyledTitle = styled.div`
 
 const StyledGroupedButtons = styled(GroupedButtons)`
 	margin-bottom: 10px;
+
 	${breakpoint.min.l`
 		margin-bottom: 40px;
+		width: 240px;
 	`}
+
+	${props => props.sidebarMobileOpened && "width: 240px;"}
+	${props => props.margin && `margin-top: ${props.margin}px;`}
 `;
 const StyledButtons = styled(Button)`
 	margin-bottom: 15px;
@@ -71,7 +76,7 @@ function Menu(props) {
 						</StyledTitle>
 					)}
 
-					<StyledGroupedButtons>
+					<StyledGroupedButtons sidebarMobileOpened={!isDesktop && isOpened}>
 						<Button
 							label={<T str="menu.filter.music" />}
 							icon={musicIcon}
@@ -101,7 +106,7 @@ function Menu(props) {
 						</StyledTitle>
 					)}
 
-					<StyledGroupedButtons>
+					<StyledGroupedButtons sidebarMobileOpened={!isDesktop && isOpened}>
 						<Button
 							label={<T str="menu.action.mute" />}
 							icon={mute}
@@ -130,7 +135,7 @@ function Menu(props) {
 						/>
 					</StyledGroupedButtons>
 
-					<GroupedButtons spaced={true}>
+					<StyledGroupedButtons spaced={true} sidebarMobileOpened={!isDesktop && isOpened} margin={20}>
 						<StyledButtons
 							icon={wand}
 							label={<T str="menu.settings" />}
@@ -154,7 +159,7 @@ function Menu(props) {
 								<StyledButtons icon={donate} label={<T str="menu.donate" />} iconOnly={!isOpened} href={value} />
 							)}
 						</T>
-					</GroupedButtons>
+					</StyledGroupedButtons>
 
 					{!isDesktop && isOpened && (
 						<Hint>

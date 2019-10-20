@@ -7,8 +7,6 @@ import breakpoint from "../../helpers/breakpoint";
 
 const StyledButton = styled.button`
 	display: inline-flex;
-
-	width: 200px;
 	margin: 4px;
 	padding: 7px 0 7px 20px;
 
@@ -40,7 +38,6 @@ const StyledButton = styled.button`
 	${props =>
 		props.iconOnly &&
 		`
-		width: auto;
 		padding: 7px 10px;
 		text-align: center;
 		border-radius: 15px;

@@ -9,10 +9,6 @@ const StyledGroupedButton = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	${breakpoint.min.l`
-		width: 240px;
-	`}
-
 	& > button,
 	& > a {
 		${breakpoint.max.l`
