@@ -30,13 +30,13 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:prod": "PUBLIC_URL=https://www.adblockradio.com/player react-scripts build",
     "test": "node ./node_modules/eslint/bin/eslint.js src/**/*.js* && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "plugins": [
     "transform-decorators-legacy"
   ],
-  "homepage": "https://www.adblockradio.com/player",
   "browserslist": [
     ">0.2%",
     "not dead",
