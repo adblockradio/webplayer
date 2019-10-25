@@ -31,9 +31,9 @@ const Shadow = styled.div`
 	`}
 
 	${breakpoint.min.l`
-    box-shadow: 0px 0px 15px 0px rgb(0, 0, 0);
-    border: none;
-  `}
+		box-shadow: 0px 0px 15px 0px rgb(0, 0, 0);
+		border: none;
+	`}
 
 	@keyframes shadow {
 		0% {
