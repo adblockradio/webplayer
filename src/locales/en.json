@@ -1,0 +1,37 @@
+{
+	"player-status.choose": "Choose a radio to listen to",
+	"player-status.muted": "muted",
+
+	"menu.filter.title": "I want to listen to:",
+	"menu.filter.music": "Music only",
+	"menu.filter.speech": "Music & talk",
+	"menu.filter.ads": "Anything",
+
+	"menu.action.title": "On ad detection…",
+	"menu.action.mute": "Mute",
+	"menu.action.podium": "Hop & return",
+	"menu.action.roundabout": "Hop & stay",
+
+	"menu.settings": "Settings",
+	"menu.flag": "Filtering error?",
+	"menu.suggest": "Give feedback",
+	"menu.donate": "Donate",
+	"menu.donate.url": "https://en.liberapay.com/asto/donate",
+	"menu.hint": "Tip: on Chrome mobile, this website is an installable application. Open the menu and click on \"Add to home screen\".",
+
+	"popup.flag.thanks": "Thanks for your contribution",
+	"popup.flag.desc": "A flag every 2-3 minutes is enough",
+	"popup.flag.help": "To guarantee the quality of the ad filters, Adblock Radio needs your help to support:",
+	"popup.flag.more": "Tell me more about this",
+	"popup.flag.close": "Close",
+
+	"popup.feedback.title": "Rate your experience",
+	"popup.feedback.desc.up": "Glad you like it!",
+	"popup.feedback.desc.down": "Tell us how to do better",
+	"popup.feedback.alt.up": "I love it!",
+	"popup.feedback.alt.down": "Can do better",
+	"popup.feedback.contrib": "This player is free software. Contribute on Github",
+	"popup.feedback.thanks": "Thanks for your feedback!",
+	"popup.feedback.placeholder": "Please elaborate…",
+	"popup.feedback.send": "Send"
+}

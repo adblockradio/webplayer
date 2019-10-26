@@ -28,7 +28,7 @@ function PlayPause(props) {
 	);
 }
 
-PlayPause.defaults = {
+PlayPause.defaultProps = {
 	className: null,
 	playing: false
 };

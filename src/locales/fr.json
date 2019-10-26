@@ -1,0 +1,37 @@
+{
+	"player-status.choose": "Choisissez une radio à écouter",
+	"player-status.muted": "volume réduit",
+
+	"menu.filter.title": "Je veux écouter :",
+	"menu.filter.music": "Musique",
+	"menu.filter.speech": "Pas de pub",
+	"menu.filter.ads": "Sans filtre",
+
+	"menu.action.title": "En cas de pub…",
+	"menu.action.mute": "Silence",
+	"menu.action.podium": "Zappe & revient",
+	"menu.action.roundabout": "Zappe & reste",
+
+	"menu.settings": "Réglages",
+	"menu.flag": "Bug de filtrage ?",
+	"menu.suggest": "Vos suggestions",
+	"menu.donate": "Faites un don",
+	"menu.donate.url": "https://fr.liberapay.com/asto/donate",
+	"menu.hint": "Astuce: sur Chrome mobile, ce site est une application installable. Allez dans le menu et cliquez sur \"Ajouter à l'écran d'accueil\".",
+
+	"popup.flag.thanks": "Merci du signalement",
+	"popup.flag.desc": "Un signalement toutes les 2-3 minutes suffit",
+	"popup.flag.help": "Pour garantir la qualité du filtre à publicités, Adblock Radio a besoin de votre aide pour :",
+	"popup.flag.more": "Je veux en savoir plus",
+	"popup.flag.close": "Fermer",
+
+	"popup.feedback.title": "Que pensez-vous d'Adblock Radio ?",
+	"popup.feedback.desc.up": "Super que le service vous plaise !",
+	"popup.feedback.desc.down": "Dites-nous comment nous pourrions mieux faire.",
+	"popup.feedback.alt.up": "Ça me plaît !",
+	"popup.feedback.alt.down": "Peut mieux faire",
+	"popup.feedback.contrib": "Ce lecteur est open-source. Contribuez sur Github",
+	"popup.feedback.thanks": "Merci de votre retour !",
+	"popup.feedback.placeholder": "Donnez ici plus de détails…",
+	"popup.feedback.send": "Envoyer"
+}

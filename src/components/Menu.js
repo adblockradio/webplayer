@@ -2,9 +2,12 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Sidebar from "./Layout/Sidebar";
 import GroupedButtons from "./Layout/GroupedButtons";
+import PopupFeedback from "./PopupFeedback";
+import PopupFlag from "./PopupFlag";
+import Sidebar from "./Layout/Sidebar";
 import Button from "./Controls/Button";
+import T from "./T";
 
 import musicIcon from "../img/type/1music.png";
 import speechIcon from "../img/type/2speech.png";
@@ -17,6 +20,9 @@ import ratings from "../img/ratings100.png";
 import flagIcon from "../img/flag2.svg";
 import donate from "../img/donate_2226736.svg";
 
+import { useBreakpoint } from "../helpers/hooks";
+import breakpoint from "../helpers/breakpoint";
+
 import consts from "../consts.js";
 
 const StyledTitle = styled.div`
@@ -26,8 +32,15 @@ const StyledTitle = styled.div`
 `;
 
 const StyledGroupedButtons = styled(GroupedButtons)`
-	margin-bottom: 40px;
-	${props => props.condensed && "margin-bottom: 10px;"}
+	margin-bottom: 10px;
+
+	${breakpoint.min.l`
+		margin-bottom: 40px;
+		width: 240px;
+	`}
+
+	${props => props.sidebarMobileOpened && "width: 240px;"}
+	${props => props.margin && `margin-top: ${props.margin}px;`}
 `;
 const StyledButtons = styled(Button)`
 	margin-bottom: 15px;
@@ -40,168 +53,133 @@ const Hint = styled.div`
 `;
 
 function Menu(props) {
-	const { condensed, uiLang, filterType, actionType, bsw, showOnboarding, showFeedback, showFlag } = props;
+	const { filterType, actionType, bsw, showOnboarding } = props;
 
-	const filterTitle = { fr: "Je veux écouter\xa0:", en: "I want to listen to:" }[uiLang];
-
-	const musicBtnLabel = { fr: "Musique", en: "Music only" }[uiLang];
-	const speechBtnLabel = { fr: "Pas de pub", en: "Music & talk" }[uiLang];
-	const adsBtnLabel = { fr: "Sans filtre", en: "Anything" }[uiLang];
+	const isDesktop = useBreakpoint("l");
 
 	const setFilterMusic = useCallback(() => bsw.changeFilterType(consts.FILTER_MUSIC), []);
 	const setFilterSpeech = useCallback(() => bsw.changeFilterType(consts.FILTER_SPEECH), []);
 	const setFilterOff = useCallback(() => bsw.changeFilterType(consts.FILTER_OFF), []);
 
-	const actionTitle = { fr: "En cas de pub…", en: "On ad detection…" }[uiLang];
-
-	const muteBtnLabel = { fr: "Silence", en: "Mute" }[uiLang];
-	const podiumBtnLabel = { fr: "Zappe & revient", en: "Hop & return" }[uiLang];
-	const roundaboutBtnLabel = { fr: "Zappe & reste", en: "Hop & stay" }[uiLang];
-
 	const setActionMute = useCallback(() => bsw.changeActionType(consts.ACTION_MUTE), []);
 	const setActionPodium = useCallback(() => bsw.changeActionType(consts.ACTION_PODIUM), []);
 	const setActionRoundabout = useCallback(() => bsw.changeActionType(consts.ACTION_ROUNDABOUT), []);
 
-	const settingsBtnLabel = { fr: "Réglages", en: "Settings" }[uiLang];
-	const bugBtnLabel = { fr: "Bug de filtrage\xa0?", en: "Filtering error?" }[uiLang];
-	const suggestBtnLabel = { fr: "Vos suggestions", en: "Give feedback" }[uiLang];
-	const donateBtnLabel = { fr: "Faites un don", en: "Donate" }[uiLang];
-
-	const hintLabel = {
-		fr:
-			"Astuce: sur Chrome mobile, ce site est une application installable. Allez dans le menu et cliquez sur \"Ajouter à l'écran d'accueil\".",
-		en:
-			"Tip: on Chrome mobile, this website is an installable application. Open the menu and click on \"Add to home screen\"."
-	}[uiLang];
-
 	// TODO: Migrate Sidebar isOpened argument to React.Context?
 	return (
-		<Sidebar condensed={condensed}>
+		<Sidebar>
 			{isOpened => (
 				<>
-					{(!condensed || isOpened) && <StyledTitle>{filterTitle}</StyledTitle>}
+					{(isDesktop || isOpened) && (
+						<StyledTitle>
+							<T str="menu.filter.title" />
+						</StyledTitle>
+					)}
 
-					<StyledGroupedButtons condensed={condensed}>
+					<StyledGroupedButtons sidebarMobileOpened={!isDesktop && isOpened}>
 						<Button
-							label={musicBtnLabel}
+							label={<T str="menu.filter.music" />}
 							icon={musicIcon}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={filterType === consts.FILTER_MUSIC}
 							onClick={setFilterMusic}
 						/>
 						<Button
-							label={speechBtnLabel}
+							label={<T str="menu.filter.speech" />}
 							icon={speechIcon}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={filterType === consts.FILTER_SPEECH}
 							onClick={setFilterSpeech}
 						/>
 						<Button
-							label={adsBtnLabel}
+							label={<T str="menu.filter.ads" />}
 							icon={adsIcon}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={filterType === consts.FILTER_OFF}
 							onClick={setFilterOff}
 						/>
 					</StyledGroupedButtons>
 
-					{(!condensed || isOpened) && <StyledTitle>{actionTitle}</StyledTitle>}
+					{(isDesktop || isOpened) && (
+						<StyledTitle>
+							<T str="menu.action.title" />
+						</StyledTitle>
+					)}
 
-					<StyledGroupedButtons condensed={condensed}>
+					<StyledGroupedButtons sidebarMobileOpened={!isDesktop && isOpened}>
 						<Button
-							label={muteBtnLabel}
+							label={<T str="menu.action.mute" />}
 							icon={mute}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={actionType === consts.ACTION_MUTE}
 							onClick={setActionMute}
 							disabled={filterType === consts.FILTER_OFF}
 						/>
 
 						<Button
-							label={podiumBtnLabel}
+							label={<T str="menu.action.podium" />}
 							icon={podium}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={actionType === consts.ACTION_PODIUM}
 							onClick={setActionPodium}
 							disabled={filterType === consts.FILTER_OFF}
 						/>
 
 						<Button
-							label={roundaboutBtnLabel}
+							label={<T str="menu.action.roundabout" />}
 							icon={roundabout}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							active={actionType === consts.ACTION_ROUNDABOUT}
 							onClick={setActionRoundabout}
 							disabled={filterType === consts.FILTER_OFF}
 						/>
 					</StyledGroupedButtons>
 
-					<GroupedButtons spaced={true} condensed={condensed}>
+					<StyledGroupedButtons spaced={true} sidebarMobileOpened={!isDesktop && isOpened} margin={20}>
 						<StyledButtons
 							icon={wand}
-							label={settingsBtnLabel}
+							label={<T str="menu.settings" />}
 							iconOnly={!isOpened}
-							condensed={condensed}
 							onClick={showOnboarding}
 						/>
 
-						<StyledButtons
-							icon={flagIcon}
-							label={bugBtnLabel}
-							iconOnly={!isOpened}
-							condensed={condensed}
-							onClick={showFlag}
+						<PopupFlag
+							trigger={<StyledButtons icon={flagIcon} label={<T str="menu.flag" />} iconOnly={!isOpened} />}
+							getUnmaintainedRadioList={bsw.getUnmaintainedRadioList}
+							onOpened={bsw.sendFlag}
 						/>
 
-						<StyledButtons
-							icon={ratings}
-							label={suggestBtnLabel}
-							iconOnly={!isOpened}
-							condensed={condensed}
-							onClick={showFeedback}
+						<PopupFeedback
+							trigger={<StyledButtons icon={ratings} label={<T str="menu.suggest" />} iconOnly={!isOpened} />}
+							onSend={bsw.sendFeedback}
 						/>
 
-						<StyledButtons
-							icon={donate}
-							label={donateBtnLabel}
-							iconOnly={!isOpened}
-							condensed={condensed}
-							href={`https://${uiLang}.liberapay.com/asto/donate`}
-						/>
-					</GroupedButtons>
+						<T str="menu.donate.url">
+							{value => (
+								<StyledButtons icon={donate} label={<T str="menu.donate" />} iconOnly={!isOpened} href={value} />
+							)}
+						</T>
+					</StyledGroupedButtons>
 
-					{condensed && isOpened && <Hint>{hintLabel}</Hint>}
+					{!isDesktop && isOpened && (
+						<Hint>
+							<T str="menu.hint" />
+						</Hint>
+					)}
 				</>
 			)}
 		</Sidebar>
 	);
 }
 
-Menu.defaults = {};
-
 Menu.propTypes = {
-	condensed: PropTypes.bool.isRequired,
-	uiLang: PropTypes.string.isRequired,
 	filterType: PropTypes.number.isRequired,
 	actionType: PropTypes.number.isRequired,
 	bsw: PropTypes.object.isRequired,
-	showOnboarding: PropTypes.func.isRequired,
-	showFeedback: PropTypes.func.isRequired,
-	showFlag: PropTypes.func.isRequired
+	showOnboarding: PropTypes.func.isRequired
 };
 
 export default React.memo(Menu, (prev, next) => {
 	// Only those props can rerender this component!
-	return (
-		prev.condensed === next.condensed &&
-		prev.uiLang === next.uiLang &&
-		prev.filterType === next.filterType &&
-		prev.actionType === next.actionType
-	);
+	return prev.filterType === next.filterType && prev.actionType === next.actionType;
 });

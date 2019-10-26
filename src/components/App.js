@@ -1,41 +1,27 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import classNames from "classnames";
 
 import RadiosCarousel from "./RadiosCarousel.js";
-import { Feedback } from "./Feedback.jsx";
+import Splashscreen from "./Layout/Splashscreen";
 import MediaElement from "./MediaElement.js";
 import Onboarding from "./Onboarding/Onboarding.jsx";
-import Flag from "./Flag.jsx";
 import Menu from "./Menu";
+
+import { LocaleContext } from "../LocaleContext";
 
 import Settings from "../Settings.js";
 import consts from "../consts.js";
 
 const Root = styled.div`
-	overflow: auto;
 	display: flex;
+	overflow: hidden;
 	flex-wrap: nowrap;
+	height: 100%;
 `;
 
 const RightUI = styled.div`
 	flex-grow: 1;
-`;
-
-const Loading = styled.div`
-	background: #98b3ff; /*linear-gradient(to bottom, #a4d7fe 0%, #98b3ff 100%);*/
-	height: 100vh;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-`;
-
-const LoadingLogo = styled.img`
-	width: 380px;
-	margin: auto;
-	&.condensed {
-		width: 190px;
-	}
+	height: 100%;
 `;
 
 class App extends Component {
@@ -56,19 +42,13 @@ class App extends Component {
 			loading: true,
 			onboarding: false,
 			settings: settings,
-			mobile: false,
-			feedback: false,
-			flag: false
+			mobile: false
 		};
 
 		this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
 
 		this.showOnboarding = this.showOnboarding.bind(this);
 		this.closeOnboarding = this.closeOnboarding.bind(this);
-		this.showFeedback = this.showFeedback.bind(this);
-		this.closeFeedback = this.closeFeedback.bind(this);
-		this.showFlag = this.showFlag.bind(this);
-		this.closeFlag = this.closeFlag.bind(this);
 	}
 
 	componentDidMount() {
@@ -121,88 +101,52 @@ class App extends Component {
 		this.toggleOnboarding(false);
 	}
 
-	showFeedback() {
-		this.setState({ feedback: true });
-	}
-	closeFeedback() {
-		this.setState({ feedback: false });
-	}
-
-	showFlag() {
-		this.bsw.sendFlag();
-		this.setState({ flag: true });
-	}
-	closeFlag() {
-		this.setState({ flag: false });
-	}
-
 	render() {
 		let settings = this.state.settings;
 
 		if (this.state.loading) {
-			return (
-				<Loading>
-					<LoadingLogo
-						src="https://static.adblockradio.com/assets/abr_transparent_head.png"
-						className={classNames({ condensed: this.state.mobile })}
-						alt="Adblock Radio loading"
-					/>
-				</Loading>
-			);
+			return <Splashscreen />;
 		}
 
 		let status = this.state.settings.accountStatus();
 		let onboarding = this.state.onboarding || status === consts.UI_NEED_EMAIL || status === consts.UI_WAIT_CONFIRM;
 		return (
-			<Root>
-				{!(onboarding && this.state.mobile) && (
+
+			<LocaleContext.Provider value={settings.config.uiLang}>
+				<Root>
 					<Menu
 						bsw={this.bsw}
-						uiLang={settings.config.uiLang}
 						filterType={settings.config.filterType}
 						actionType={settings.config.actionType}
-						condensed={this.state.mobile}
 						showOnboarding={this.showOnboarding}
-						showFeedback={this.showFeedback}
-						showFlag={this.showFlag}
 					/>
-				)}
-				<RightUI className={classNames({ condensed: this.state.mobile })} style={{ height: window.innerHeight }}>
-					{onboarding ? (
-						<Onboarding
-							bsw={this.bsw}
-							settings={settings}
-							closeOnboarding={this.closeOnboarding}
-							catalog={settings.catalog}
-							condensed={this.state.mobile}
-						/>
-					) : (
-						<RadiosCarousel bsw={this.bsw} settings={settings} condensed={this.state.mobile} />
-					)}
-					<div style={{ display: "none" }}>
-						<MediaElement
-							id="player1"
-							width={0}
-							height={0}
-							url={this.state.settings.player.url}
-							volume={this.state.settings.player.volume}
-							options={"{}"}
-							onError={this.bsw.onPlayerError}
-							onPause={this.bsw.stopPlayInBackground}
-						/>
-					</div>
-				</RightUI>
-
-				{this.state.feedback && (
-					<Feedback
-						send={this.bsw.sendFeedback}
-						close={this.closeFeedback}
-						settings={settings}
-						condensed={this.state.mobile}
-					/>
-				)}
-				{this.state.flag && <Flag settings={settings} close={this.closeFlag} condensed={this.state.mobile} />}
-			</Root>
+					<RightUI>
+						{onboarding ? (
+							<Onboarding
+								bsw={this.bsw}
+								settings={settings}
+								closeOnboarding={this.closeOnboarding}
+								catalog={settings.catalog}
+								condensed={this.state.mobile}
+							/>
+						) : (
+							<RadiosCarousel bsw={this.bsw} settings={settings} condensed={this.state.mobile} />
+						)}
+						<div style={{ display: "none" }}>
+							<MediaElement
+								id="player1"
+								width={0}
+								height={0}
+								url={this.state.settings.player.url}
+								volume={this.state.settings.player.volume}
+								options={"{}"}
+								onError={this.bsw.onPlayerError}
+								onPause={this.bsw.stopPlayInBackground}
+							/>
+						</div>
+					</RightUI>
+				</Root>
+			</LocaleContext.Provider>
 		);
 	}
 }

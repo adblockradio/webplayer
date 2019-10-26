@@ -4,9 +4,12 @@ import styled from "styled-components";
 
 import Button from "../Controls/Button";
 
+import { useBreakpoint } from "../../helpers/hooks";
+import breakpoint from "../../helpers/breakpoint";
+
 const StyledSidebar = styled.div`
-	height: 100vh;
-	width: 350px;
+	height: 100%;
+	width: 60px;
 
 	overflow: auto;
 
@@ -22,8 +25,11 @@ const StyledSidebar = styled.div`
 	/* allow to push player outside the screen on mobile with menu opened */
 	flex-shrink: 0;
 
-	${props => props.condensed && "width: 60px;"}
-	${props => props.condensed && props.opened && "width: 100%;"}
+	${props => props.opened && "width: 100%;"}
+
+	${breakpoint.min.l`
+		width: 350px;
+	`}
 `;
 
 // eslint-disable-next-line react/prop-types
@@ -64,32 +70,29 @@ const iconMenuOpened = "chevron-left";
 const iconMenuClosed = "menu-hamburger";
 
 function Sidebar(props) {
-	const { condensed, children } = props;
+	const { children } = props;
 
 	const [opened, setOpened] = useState(false);
+	const isDesktop = useBreakpoint("l");
 
 	const toggleOpened = () => setOpened(!opened);
 
 	return (
-		<StyledSidebar condensed={condensed} opened={opened}>
-			{condensed && (
-				<StyledToggle onClick={toggleOpened} condensed glyphicon={opened ? iconMenuOpened : iconMenuClosed} />
-			)}
-			{!condensed && <TopLogo />}
+		<StyledSidebar opened={opened}>
+			{!isDesktop && <StyledToggle onClick={toggleOpened} glyphicon={opened ? iconMenuOpened : iconMenuClosed} />}
+			{isDesktop && <TopLogo />}
 			{children(opened)}
-			{condensed && opened && <BottomLogo />}
+			{!isDesktop && opened && <BottomLogo />}
 		</StyledSidebar>
 	);
 }
 
-Sidebar.defaults = {
-	children: () => {},
-	condensed: false
+Sidebar.defaultProps = {
+	children: () => {}
 };
 
 Sidebar.propTypes = {
-	children: PropTypes.func,
-	condensed: PropTypes.bool
+	children: PropTypes.func
 };
 
 export default Sidebar;

@@ -134,6 +134,10 @@ export default function(settings, updateUI) {
 		});
 	};
 
+	// Temp, must be in a separate "service" file, with other "radio" functions
+	const getUnmaintainedRadioList = function() {
+		return settings.getUnmaintainedRadioList();
+	};
 
 	const addRadio = function(data) {
 		let radioWasNotInPlaylist = settings.addRadio(data);
@@ -650,6 +654,7 @@ export default function(settings, updateUI) {
 		moveRadio,
 		getRadio,
 		getRadioList,
+		getUnmaintainedRadioList,
 		getSupportedRadios,
 		getServerList,
 		togglePlay,

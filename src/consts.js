@@ -40,6 +40,12 @@ const consts = {
 	COUNTRIES: ["France", "Argentina", "Belgium", "Canada", "Finland", "Germany", "Greece", "Italy", "Netherlands", "New Zealand", "Slovakia", "Spain", "Switzerland", "United Kingdom", "Uruguay"],
 	MIMETYPES: { "mp3": "audio/mp3", "ogg":"audio/ogg", "aac": "audio/mp4", "m3u8": "application/x-mpegURL" },
 
+	breakpoints: {
+		m: 768,
+		l: 992,
+		xl: 1200,
+	},
+
 	getStatusColor: function(status) {
 		switch(status) {
 			case this.STATUS_AD: return this.COLOR_ADS;

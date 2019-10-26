@@ -2,16 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+import { useBreakpoint } from "../../helpers/hooks";
+import breakpoint from "../../helpers/breakpoint";
+
 const StyledButton = styled.button`
 	display: inline-flex;
-
-	width: 200px;
 	margin: 4px;
 	padding: 7px 0 7px 20px;
 
 	color: #333;
 	font-size: 18px;
-	text-align: left;
 	vertical-align: middle;
 
 	background-color: #fff;
@@ -36,13 +36,8 @@ const StyledButton = styled.button`
 	`}
 
 	${props =>
-		props.condensed &&
-		`
-	`}
-	${props =>
 		props.iconOnly &&
 		`
-		width: auto;
 		padding: 7px 10px;
 		text-align: center;
 		border-radius: 15px;
@@ -63,37 +58,34 @@ const StyledButton = styled.button`
 const StyledText = styled.span`
 	display: inline-block;
 	margin-left: 10px;
+	margin-right: 35px; // Center content, take image into account
 	width: 100%;
 `;
 
 const StyledIcon = styled.img`
-	width: 25px;
-	height: 25px;
+	width: 20px;
+	height: 20px;
 
 	${props => props.active && "filter: invert(100%);"}
 	${props => props.disabled && "filter: invert(50%);"}
 
-	${props =>
-		props.condensed &&
-		`
-		width: 20px;
-		height: 20px;
+	${breakpoint.min.l`
+		width: 25px;
+		height: 25px;
 	`}
 `;
 
 function Button(props) {
-	const { label, active, disabled, condensed, iconOnly, href, icon, glyphicon, className, onClick } = props;
+	const { label, active, disabled, iconOnly, href, icon, glyphicon, className, onClick } = props;
+
+	const isDesktop = useBreakpoint("l");
 
 	const linkProps = { as: "a", href, target: "_blank", rel: "noopener noreferrer" };
 	const buttonProps = { as: "button", onClick };
-	const displayText = (condensed && !iconOnly) || !condensed;
-
-	if (condensed && !icon && !glyphicon) {
-		return null;
-	}
+	const displayText = (!isDesktop && !iconOnly) || isDesktop;
 
 	const iconElement = icon ? (
-		<StyledIcon src={icon} active={active} disabled={disabled} condensed={condensed} />
+		<StyledIcon src={icon} active={active} disabled={disabled} />
 	) : (
 		<i className={`glyphicon glyphicon-${glyphicon}`}></i>
 	);
@@ -103,7 +95,6 @@ function Button(props) {
 			{...(href ? linkProps : buttonProps)}
 			active={active}
 			disabled={disabled}
-			condensed={condensed}
 			iconOnly={iconOnly}
 			className={className}
 		>
@@ -113,10 +104,9 @@ function Button(props) {
 	);
 }
 
-Button.defaults = {
+Button.defaultProps = {
 	label: null,
 	active: false,
-	condensed: false,
 	iconOnly: false,
 	disabled: false,
 	href: null,
@@ -127,9 +117,8 @@ Button.defaults = {
 };
 
 Button.propTypes = {
-	label: PropTypes.string,
+	label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 	active: PropTypes.bool,
-	condensed: PropTypes.bool,
 	iconOnly: PropTypes.bool,
 	disabled: PropTypes.bool,
 	href: PropTypes.string,
